@@ -31,7 +31,13 @@
                             </div>
                             <div class="info-item">
                                 <strong>Auto Renew:</strong>
-                                <span :class="(domain as any).autoRenew ? 'text-success' : 'text-secondary'">
+                                <span
+                                    :class="
+                                        (domain as any).autoRenew
+                                            ? 'text-success'
+                                            : 'text-secondary'
+                                    "
+                                >
                                     {{ (domain as any).autoRenew ? 'Enabled' : 'Disabled' }}
                                 </span>
                             </div>
@@ -44,7 +50,9 @@
                                             : 'text-secondary'
                                     "
                                 >
-                                    {{ (domain as any).notificationEnabled ? 'Enabled' : 'Disabled' }}
+                                    {{
+                                        (domain as any).notificationEnabled ? 'Enabled' : 'Disabled'
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -110,7 +118,9 @@
                                     <td>{{ formatDate((cert as any).validTo) }}</td>
                                     <td>
                                         <span
-                                            :class="{ 'text-danger': (cert as any).daysUntilExpiry <= 30 }"
+                                            :class="{
+                                                'text-danger': (cert as any).daysUntilExpiry <= 30,
+                                            }"
                                             class="badge"
                                         >
                                             {{ (cert as any).daysUntilExpiry }}
@@ -156,15 +166,15 @@ const domainCertificates = computed(() =>
 )
 
 const validCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'valid' as any)
+    domainCertificates.value.filter(cert => cert.status === ('valid' as any))
 )
 
 const expiringCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'expiring' as any)
+    domainCertificates.value.filter(cert => cert.status === ('expiring' as any))
 )
 
 const expiredCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'expired' as any)
+    domainCertificates.value.filter(cert => cert.status === ('expired' as any))
 )
 
 const formatDate = (date: Date | string) => {

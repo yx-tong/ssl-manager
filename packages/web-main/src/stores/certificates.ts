@@ -63,7 +63,9 @@ export const useCertificatesStore = defineStore('certificates', () => {
     }
 
     const getCertificatesByDomain = (domain: string) => {
-        return certificates.value.filter(cert => (cert as any).domain && (cert as any).domain.includes(domain)) as SSLCertificate[]
+        return certificates.value.filter(
+            cert => (cert as any).domain && (cert as any).domain.includes(domain)
+        ) as SSLCertificate[]
     }
 
     return {

@@ -5,7 +5,7 @@ export const usersRouter = new Hono<{ Bindings: Env }>()
 
 // 获取所有用户
 usersRouter.get('/', async c => {
-      const { results } = await (c.env as any).DB.prepare(
+    const { results } = await (c.env as any).DB.prepare(
         `
     SELECT id, username, email, role, status, created_at, last_login
     FROM users 

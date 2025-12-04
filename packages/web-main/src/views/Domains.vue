@@ -17,7 +17,7 @@
 
             <div v-else>
                 <div class="grid grid-cols-2">
-                    <div class="card" v-for="domain in (domainsStore.domains || [])" :key="domain.id">
+                    <div class="card" v-for="domain in domainsStore.domains || []" :key="domain.id">
                         <div class="domain-header">
                             <h3>
                                 <router-link :to="`/domain/${domain.id}`">
@@ -39,7 +39,13 @@
 
                         <div class="domain-info">
                             <p>Last checked: {{ formatDate((domain as any).lastChecked) }}</p>
-                            <div class="domain-settings" v-if="(domain as any).autoRenew !== undefined && (domain as any).notificationEnabled !== undefined">
+                            <div
+                                class="domain-settings"
+                                v-if="
+                                    (domain as any).autoRenew !== undefined &&
+                                    (domain as any).notificationEnabled !== undefined
+                                "
+                            >
                                 <label>
                                     <input
                                         type="checkbox"

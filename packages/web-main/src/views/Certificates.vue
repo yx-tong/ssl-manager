@@ -51,19 +51,23 @@
                         <tbody>
                             <tr v-for="cert in filteredCertificates" :key="cert.id">
                                 <td>{{ (cert as any).domain }}</td>
-                            <td>
-                                <span :class="['status-badge', (cert as any).status]">
-                                    {{ (cert as any).status }}
-                                </span>
-                            </td>
-                            <td>{{ (cert as any).issuer }}</td>
-                            <td>{{ formatDate((cert as any).validFrom) }}</td>
-                            <td>{{ formatDate((cert as any).validTo) }}</td>
-                            <td>
-                                <span :class="{ 'text-danger': (cert as any).daysUntilExpiry <= 30 }">
-                                    {{ (cert as any).daysUntilExpiry }}
-                                </span>
-                            </td>
+                                <td>
+                                    <span :class="['status-badge', (cert as any).status]">
+                                        {{ (cert as any).status }}
+                                    </span>
+                                </td>
+                                <td>{{ (cert as any).issuer }}</td>
+                                <td>{{ formatDate((cert as any).validFrom) }}</td>
+                                <td>{{ formatDate((cert as any).validTo) }}</td>
+                                <td>
+                                    <span
+                                        :class="{
+                                            'text-danger': (cert as any).daysUntilExpiry <= 30,
+                                        }"
+                                    >
+                                        {{ (cert as any).daysUntilExpiry }}
+                                    </span>
+                                </td>
                                 <td>
                                     <button
                                         class="btn btn-primary btn-sm"
@@ -103,7 +107,9 @@ const filteredCertificates = computed(() => {
 
     if (searchFilter.value) {
         const search = searchFilter.value.toLowerCase()
-        certificates = certificates.filter(cert => (cert as any).domain && (cert as any).domain.toLowerCase().includes(search))
+        certificates = certificates.filter(
+            cert => (cert as any).domain && (cert as any).domain.toLowerCase().includes(search)
+        )
     }
 
     return certificates
