@@ -1,4 +1,4 @@
-name = 'ssl-manager'
+name = 'ssl-service'
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
@@ -22,3 +22,18 @@ database_id = "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d"
 binding = "DB"
 database_name = "ssl-manager"
 database_id = "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d"
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
