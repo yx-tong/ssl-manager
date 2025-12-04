@@ -1,22 +1,37 @@
 export interface SSLCertificate {
-  id: number;
-  domain_id: number;
-  certificate: string;
-  private_key: string;
-  status: 'active' | 'expired' | 'revoked' | 'pending';
-  issued_at: string;
-  expires_at: string;
-  created_at: string;
-  updated_at: string;
+  id: number | string;
+  domain_id?: number;
+  domain: string;
+  certificate?: string;
+  private_key?: string;
+  status: 'active' | 'expired' | 'revoked' | 'pending' | 'valid' | 'expiring';
+  issued_at?: string;
+  expires_at?: string;
+  validFrom?: Date;
+  validTo?: Date;
+  daysUntilExpiry?: number;
+  issuer?: string;
+  subject?: string;
+  fingerprint?: string;
+  serialNumber?: string;
+  san?: string[];
+  keySize?: number;
+  signatureAlgorithm?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Domain {
   id: number;
   domain: string;
+  name?: string;
   status: 'active' | 'inactive';
   created_at: string;
   updated_at: string;
   expires_at?: string;
+  lastChecked?: Date;
+  autoRenew?: boolean;
+  notificationEnabled?: boolean;
 }
 
 export interface User {

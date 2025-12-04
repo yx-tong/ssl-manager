@@ -54,8 +54,8 @@ export const useCertificatesStore = defineStore('certificates', () => {
         }
     }
 
-    const getCertificateById = (id: string) => {
-        return certificates.value.find(cert => cert.id === id)
+    const getCertificateById = (id: string | number) => {
+        return certificates.value.find(cert => cert.id.toString() === id.toString())
     }
 
     const getCertificatesByDomain = (domain: string) => {

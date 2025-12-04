@@ -17,17 +17,23 @@ export const useDomainsStore = defineStore('domains', () => {
 
             domains.value = [
                 {
-                    id: '1',
+                    id: 1,
+                    domain: 'example.com',
                     name: 'example.com',
-                    certificates: [],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
                     lastChecked: new Date(),
                     autoRenew: true,
                     notificationEnabled: true,
                 },
                 {
-                    id: '2',
+                    id: 2,
+                    domain: 'test.com',
                     name: 'test.com',
-                    certificates: [],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
                     lastChecked: new Date(),
                     autoRenew: false,
                     notificationEnabled: true,
@@ -49,9 +55,12 @@ export const useDomainsStore = defineStore('domains', () => {
             await new Promise(resolve => setTimeout(resolve, 500))
 
             const newDomain: Domain = {
-                id: Date.now().toString(),
+                id: Date.now(),
+                domain: domainName,
                 name: domainName,
-                certificates: [],
+                status: 'active',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
                 lastChecked: new Date(),
                 autoRenew: true,
                 notificationEnabled: true,
@@ -66,7 +75,7 @@ export const useDomainsStore = defineStore('domains', () => {
         }
     }
 
-    const removeDomain = async (domainId: string) => {
+    const removeDomain = async (domainId: string | number) => {
         loading.value = true
         error.value = null
 

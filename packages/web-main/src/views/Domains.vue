@@ -135,9 +135,9 @@ const editDomain = (domain: Domain) => {
 }
 
 const deleteDomain = async (domain: Domain) => {
-    if (confirm(`Are you sure you want to delete ${domain.name}?`)) {
+    if (confirm(`Are you sure you want to delete ${domain.name || domain.domain}?`)) {
         try {
-            await domainsStore.removeDomain(domain.id)
+            await domainsStore.removeDomain(domain.id.toString())
         } catch (error) {
             console.error('Failed to delete domain:', error)
         }

@@ -148,10 +148,10 @@ const certificatesStore = useCertificatesStore()
 
 const domainId = ref(route.params.id as string)
 
-const domain = computed(() => domainsStore.domains.find(d => d.id === domainId.value))
+const domain = computed(() => domainsStore.domains.find(d => d.id.toString() === domainId.value))
 
 const domainCertificates = computed(() =>
-    certificatesStore.getCertificatesByDomain(domain.value?.name || '')
+    certificatesStore.getCertificatesByDomain(domain.value?.domain || '')
 )
 
 const validCertificates = computed(() =>
