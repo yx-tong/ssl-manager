@@ -1,64 +1,64 @@
 // Element Plus customizations
 .el-menu {
-  border-right: none !important;
+    border-right: none !important;
 }
 
 .el-menu-item {
-  &.is-active {
-    background-color: #263445 !important;
-  }
+    &.is-active {
+        background-color: #263445 !important;
+    }
 
-  &:hover {
-    background-color: #263445 !important;
-  }
+    &:hover {
+        background-color: #263445 !important;
+    }
 }
 
 .el-card {
-  border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !important;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
 .el-table {
-  .el-table__header-wrapper {
-    th {
-      background-color: #f5f7fa;
-      font-weight: 600;
-      color: #606266;
+    .el-table__header-wrapper {
+        th {
+            background-color: #f5f7fa;
+            font-weight: 600;
+            color: #606266;
+        }
     }
-  }
 }
 
 .el-button {
-  border-radius: 4px;
+    border-radius: 4px;
 }
 
 .el-input {
-  .el-input__wrapper {
-    border-radius: 4px;
-  }
+    .el-input__wrapper {
+        border-radius: 4px;
+    }
 }
 
 .el-dialog {
-  border-radius: 8px;
+    border-radius: 8px;
 }
 
 // Custom admin theme colors
 .admin-primary {
-  color: $admin-primary;
+    color: $admin-primary;
 }
 
 .admin-success {
-  color: $admin-success;
+    color: $admin-success;
 }
 
 .admin-warning {
-  color: $admin-warning;
+    color: $admin-warning;
 }
 
 .admin-danger {
-  color: $admin-danger;
+    color: $admin-danger;
 }
 
 .admin-info {
-  color: $admin-info;
+    color: $admin-info;
 }

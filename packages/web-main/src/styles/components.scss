@@ -1,114 +1,114 @@
 // Table styles
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--color-surface);
-  border-radius: $border-radius-lg;
-  overflow: hidden;
-  box-shadow: $shadow-sm;
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-surface);
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
 
-  th,
-  td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
-  }
+    th,
+    td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+    }
 
-  th {
-    background-color: var(--color-background);
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+    th {
+        background-color: var(--color-background);
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
 
-  tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.02);
-  }
+    tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
 }
 
 // Form styles
 .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  input,
-  select,
-  textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: $border-radius-md;
-    font-size: 1rem;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
-
-    &:focus {
-      outline: none;
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--color-text);
     }
 
-    &:disabled {
-      background-color: var(--color-background);
-      cursor: not-allowed;
-    }
-  }
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: $border-radius-md;
+        font-size: 1rem;
+        transition:
+            border-color 0.2s,
+            box-shadow 0.2s;
 
-  .error {
-    color: var(--color-danger);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
+        &:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        &:disabled {
+            background-color: var(--color-background);
+            cursor: not-allowed;
+        }
+    }
+
+    .error {
+        color: var(--color-danger);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
 }
 
 // Grid system
 .grid {
-  display: grid;
-  gap: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
 
-  &.grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  &.grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  &.grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  @media (max-width: $breakpoint-md) {
-    &.grid-cols-2,
-    &.grid-cols-3,
-    &.grid-cols-4 {
-      grid-template-columns: 1fr;
+    &.grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
+
+    &.grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (max-width: $breakpoint-md) {
+        &.grid-cols-2,
+        &.grid-cols-3,
+        &.grid-cols-4 {
+            grid-template-columns: 1fr;
+        }
+    }
 }
 
 // Loading spinner
 .spinner {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top-color: var(--color-primary);
-  animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-primary);
+    animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }

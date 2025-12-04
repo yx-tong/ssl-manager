@@ -4,18 +4,19 @@ import type { SSLCertificate } from 'api-shared'
 export type { SSLCertificate }
 
 export interface CertificateWithDomain extends SSLCertificate {
-  domain_name: string
+    domain_name: string
 }
 
 export const certificatesAPI = {
-  getAll: () => client.get<CertificateWithDomain[]>('/api/certificates'),
+    getAll: () => client.get<CertificateWithDomain[]>('/api/certificates'),
 
-  getById: (id: number) => client.get<CertificateWithDomain>(`/api/certificates/${id}`),
+    getById: (id: number) => client.get<CertificateWithDomain>(`/api/certificates/${id}`),
 
-  create: (data: Partial<SSLCertificate>) => client.post<SSLCertificate>('/api/certificates', data),
+    create: (data: Partial<SSLCertificate>) =>
+        client.post<SSLCertificate>('/api/certificates', data),
 
-  updateStatus: (id: number, status: string) =>
-    client.put<SSLCertificate>(`/api/certificates/${id}/status`, { status }),
+    updateStatus: (id: number, status: string) =>
+        client.put<SSLCertificate>(`/api/certificates/${id}/status`, { status }),
 
-  delete: (id: number) => client.delete(`/api/certificates/${id}`),
+    delete: (id: number) => client.delete(`/api/certificates/${id}`),
 }
