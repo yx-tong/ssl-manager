@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Domain } from 'api-shared'
+import type { Domain } from '@/api/domains'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 export const useDomainsStore = defineStore('adminDomains', () => {
@@ -19,20 +19,18 @@ export const useDomainsStore = defineStore('adminDomains', () => {
       
       const mockDomains: Domain[] = [
         {
-          id: '1',
-          name: 'example.com',
-          certificates: [],
-          lastChecked: new Date(),
-          autoRenew: true,
-          notificationEnabled: true
+          id: 1,
+          domain: 'example.com',
+          status: 'active',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         },
         {
-          id: '2',
-          name: 'test.com',
-          certificates: [],
-          lastChecked: new Date(),
-          autoRenew: false,
-          notificationEnabled: true
+          id: 2,
+          domain: 'test.com',
+          status: 'active',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
       ]
       
@@ -56,12 +54,11 @@ export const useDomainsStore = defineStore('adminDomains', () => {
       await new Promise(resolve => setTimeout(resolve, 500))
       
       const newDomain: Domain = {
-        id: Date.now().toString(),
-        name: domainName,
-        certificates: [],
-        lastChecked: new Date(),
-        autoRenew: true,
-        notificationEnabled: true
+        id: Date.now(),
+        domain: domainName,
+        status: 'active',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
       
       domains.value.unshift(newDomain)
@@ -95,7 +92,7 @@ export const useDomainsStore = defineStore('adminDomains', () => {
     }
   }
 
-  const removeDomain = async (domainId: string) => {
+  const removeDomain = async (domainId: number) => {
     loading.value = true
     
     try {

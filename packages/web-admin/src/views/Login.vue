@@ -86,8 +86,8 @@ const handleLogin = async () => {
           password: loginForm.password
         })
         
-        localStorage.setItem('admin-token', response.token)
-        localStorage.setItem('admin-username', response.user.username)
+        localStorage.setItem('admin-token', response.data.token)
+        localStorage.setItem('admin-username', response.data.user.username)
         ElMessage.success('Login successful')
         router.push('/dashboard')
       } catch (error) {

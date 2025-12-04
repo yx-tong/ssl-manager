@@ -30,7 +30,7 @@ client.interceptors.request.use(
 // 响应拦截器
 client.interceptors.response.use(
   (response) => {
-    return response.data
+    return response
   },
   (error) => {
     if (error.response?.status === 401) {

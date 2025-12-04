@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { SSLCertificate } from 'api-shared'
+import type { SSLCertificate } from '@/api/certificates'
 import { ElMessage } from 'element-plus'
 
 export const useCertificatesStore = defineStore('adminCertificates', () => {
@@ -62,7 +62,7 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
     }
   }
 
-  const getCertificateById = (id: string) => {
+  const getCertificateById = (id: number) => {
     return certificates.value.find(cert => cert.id === id)
   }
 
@@ -70,7 +70,7 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
     return certificates.value.filter(cert => cert.domain === domain)
   }
 
-  const refreshCertificate = async (certificateId: string) => {
+  const refreshCertificate = async (certificateId: number) => {
     loading.value = true
     
     try {

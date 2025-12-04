@@ -187,7 +187,7 @@ const handleAddUser = async () => {
       email: newUser.value.email.trim(),
       password: newUser.value.password.trim(),
       role: newUser.value.role
-    })
+    } as any)
     showAddDialog.value = false
     newUser.value = { username: '', email: '', password: '', role: 'user' }
   } catch (error) {
@@ -200,7 +200,7 @@ const handleEditUser = async () => {
     await usersStore.updateUser({
       ...editingUser.value,
       password: editingUser.value.password || undefined
-    })
+    } as any)
     showEditDialog.value = false
     editingUser.value.password = ''
   } catch (error) {
@@ -217,8 +217,8 @@ const toggleUserStatus = async (user: User) => {
   try {
     await usersStore.updateUser({
       ...user,
-      active: !user.active
-    })
+      status: user.status === 'active' ? 'inactive' : 'active'
+    } as any)
   } catch (error) {
     console.error('Failed to toggle user status:', error)
   }

@@ -19,22 +19,22 @@ export const useUsersStore = defineStore('adminUsers', () => {
       
       const mockUsers: User[] = [
         {
-          id: '1',
+          id: 1,
+          username: 'admin',
           email: 'admin@example.com',
-          name: 'Admin User',
           role: 'admin',
-          domains: ['example.com', 'test.com'],
-          createdAt: new Date('2024-01-01'),
-          updatedAt: new Date('2024-01-01')
+          status: 'active',
+          created_at: new Date('2024-01-01').toISOString(),
+          last_login: new Date('2024-01-01').toISOString()
         },
         {
-          id: '2',
+          id: 2,
+          username: 'user',
           email: 'user@example.com',
-          name: 'Regular User',
           role: 'user',
-          domains: ['example.com'],
-          createdAt: new Date('2024-01-15'),
-          updatedAt: new Date('2024-01-15')
+          status: 'active',
+          created_at: new Date('2024-01-15').toISOString(),
+          last_login: new Date('2024-01-15').toISOString()
         }
       ]
       
@@ -58,13 +58,13 @@ export const useUsersStore = defineStore('adminUsers', () => {
       await new Promise(resolve => setTimeout(resolve, 500))
       
       const newUser: User = {
-        id: Date.now().toString(),
+        id: Date.now(),
+        username: userData.username || '',
         email: userData.email || '',
-        name: userData.name || '',
         role: userData.role || 'user',
-        domains: userData.domains || [],
-        createdAt: new Date(),
-        updatedAt: new Date()
+        status: 'active',
+        created_at: new Date().toISOString(),
+        last_login: undefined
       }
       
       users.value.unshift(newUser)
@@ -87,7 +87,7 @@ export const useUsersStore = defineStore('adminUsers', () => {
       
       const index = users.value.findIndex(u => u.id === user.id)
       if (index > -1) {
-        users.value[index] = { ...user, updatedAt: new Date() }
+        users.value[index] = { ...user }
       }
       ElMessage.success('User updated successfully')
     } catch (error) {
@@ -98,14 +98,14 @@ export const useUsersStore = defineStore('adminUsers', () => {
     }
   }
 
-  const removeUser = async (userId: string) => {
+  const removeUser = async (userId: number) => {
     loading.value = true
     
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
       
-      const index = users.value.findIndex(u => u.id === userId)
+      const index = users.value.findIndex(u => u.id === Number(userId))
       if (index > -1) {
         users.value.splice(index, 1)
         total.value--
