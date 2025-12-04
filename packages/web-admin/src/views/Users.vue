@@ -146,8 +146,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { ElMessageBox } from 'element-plus'
 import { useUsersStore } from '@/stores/users'
-import type { User } from 'api-shared'
+import type { User } from '@/api/users'
 
 const usersStore = useUsersStore()
 const showAddDialog = ref(false)
@@ -160,14 +161,15 @@ const newUser = ref({
   role: 'user'
 })
 
-const editingUser = ref<User>({
-  id: '',
+const editingUser = ref<User & { password?: string }>({
+  id: 0,
   username: '',
   email: '',
   role: 'user',
-  active: true,
-  createdAt: new Date(),
-  lastLogin: null
+  status: 'active',
+  created_at: new Date().toISOString(),
+  last_login: undefined,
+  password: ''
 })
 
 const formatDate = (date: Date) => {
