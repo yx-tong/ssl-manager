@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { User } from 'api-shared'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 export const useUsersStore = defineStore('adminUsers', () => {
     const users = ref<User[]>([])
@@ -58,7 +58,7 @@ export const useUsersStore = defineStore('adminUsers', () => {
             await new Promise(resolve => setTimeout(resolve, 500))
 
             const newUser: User = {
-                id: String(Date.now()),
+                id: Date.now(),
                 username: userData.username || '',
                 email: userData.email || '',
                 role: userData.role || 'user',
@@ -105,7 +105,7 @@ export const useUsersStore = defineStore('adminUsers', () => {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 500))
 
-            const index = users.value.findIndex(u => u.id === Number(userId))
+            const index = users.value.findIndex(u => u.id === userId)
             if (index > -1) {
                 users.value.splice(index, 1)
                 total.value--

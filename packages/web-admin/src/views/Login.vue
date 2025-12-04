@@ -108,8 +108,8 @@ const handleLogin = async () => {
 
 .login-box {
     background: white;
-    border-radius: $border-radius-xl;
-    box-shadow: $shadow-lg;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     padding: 40px;
     width: 100%;
     max-width: 400px;
@@ -145,7 +145,7 @@ const handleLogin = async () => {
     font-weight: 500;
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: 768px) {
     .login-box {
         padding: 30px 20px;
     }

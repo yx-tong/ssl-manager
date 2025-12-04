@@ -66,7 +66,7 @@
                         style="width: 100%"
                         v-loading="certificatesStore.loading"
                     >
-                        <el-table-column prop="domain" label="Domain" />
+                        <el-table-column prop="domain_id" label="Domain ID" />
                         <el-table-column prop="status" label="Status">
                             <template #default="{ row }">
                                 <el-tag :type="getStatusType(row.status)" size="small">
@@ -74,10 +74,9 @@
                                 </el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="daysUntilExpiry" label="Days Left" />
-                        <el-table-column prop="validTo" label="Expires">
+                        <el-table-column label="Expires">
                             <template #default="{ row }">
-                                {{ formatDate(row.validTo) }}
+                                {{ formatDate(row.expires_at) }}
                             </template>
                         </el-table-column>
                     </el-table>
@@ -92,16 +91,10 @@
                         v-loading="domainsStore.loading"
                     >
                         <el-table-column prop="domain" label="Domain" />
-                        <el-table-column prop="lastChecked" label="Last Checked">
+                        <el-table-column prop="status" label="Status" />
+                        <el-table-column prop="created_at" label="Created">
                             <template #default="{ row }">
-                                {{ formatDate(row.lastChecked) }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="Auto Renew">
-                            <template #default="{ row }">
-                                <el-tag :type="row.autoRenew ? 'success' : 'info'" size="small">
-                                    {{ row.autoRenew ? 'Enabled' : 'Disabled' }}
-                                </el-tag>
+                                {{ formatDate(row.created_at) }}
                             </template>
                         </el-table-column>
                     </el-table>
@@ -124,8 +117,12 @@ const usersStore = useUsersStore()
 
 const expiringCertificates = computed(
     () =>
-        certificatesStore.certificates.filter((cert: SSLCertificate) => cert.status === 'expiring')
-            .length
+        certificatesStore.certificates.filter((cert: SSLCertificate) => {
+            const daysLeft = Math.ceil(
+                (new Date(cert.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+            )
+            return daysLeft <= 30 && cert.status === 'active'
+        }).length
 )
 
 const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
@@ -145,7 +142,7 @@ const getStatusType = (status: string) => {
     }
 }
 
-const formatDate = (date: Date) => {
+const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString()
 }
 

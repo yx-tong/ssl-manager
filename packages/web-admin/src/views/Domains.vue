@@ -17,22 +17,15 @@
                 v-loading="domainsStore.loading"
             >
                 <el-table-column prop="domain" label="Domain Name" />
-                <el-table-column prop="lastChecked" label="Last Checked">
+                <el-table-column prop="status" label="Status" />
+                <el-table-column prop="created_at" label="Created">
                     <template #default="{ row }">
-                        {{ formatDate(row.lastChecked) }}
+                        {{ formatDate(row.created_at) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="Auto Renew">
+                <el-table-column prop="updated_at" label="Last Updated">
                     <template #default="{ row }">
-                        <el-switch v-model="row.autoRenew" @change="handleAutoRenewChange(row)" />
-                    </template>
-                </el-table-column>
-                <el-table-column label="Notifications">
-                    <template #default="{ row }">
-                        <el-switch
-                            v-model="row.notificationEnabled"
-                            @change="handleNotificationChange(row)"
-                        />
+                        {{ formatDate(row.updated_at) }}
                     </template>
                 </el-table-column>
                 <el-table-column label="Actions" width="200">
@@ -64,13 +57,7 @@
         <el-dialog v-model="showAddDialog" title="Add New Domain" width="500px">
             <el-form :model="newDomain" label-width="120px">
                 <el-form-item label="Domain Name">
-                    <el-input v-model="newDomain.name" placeholder="example.com" />
-                </el-form-item>
-                <el-form-item label="Auto Renew">
-                    <el-switch v-model="newDomain.autoRenew" />
-                </el-form-item>
-                <el-form-item label="Notifications">
-                    <el-switch v-model="newDomain.notificationEnabled" />
+                    <el-input v-model="newDomain.domain" placeholder="example.com" />
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -85,13 +72,13 @@
         <el-dialog v-model="showEditDialog" title="Edit Domain" width="500px">
             <el-form :model="editingDomain" label-width="120px">
                 <el-form-item label="Domain Name">
-                    <el-input v-model="editingDomain.name" disabled />
+                    <el-input v-model="editingDomain.domain" disabled />
                 </el-form-item>
-                <el-form-item label="Auto Renew">
-                    <el-switch v-model="editingDomain.autoRenew" />
-                </el-form-item>
-                <el-form-item label="Notifications">
-                    <el-switch v-model="editingDomain.notificationEnabled" />
+                <el-form-item label="Status">
+                    <el-select v-model="editingDomain.status">
+                        <el-option label="Active" value="active" />
+                        <el-option label="Inactive" value="inactive" />
+                    </el-select>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -115,20 +102,18 @@ const showAddDialog = ref(false)
 const showEditDialog = ref(false)
 
 const newDomain = ref({
-    name: '',
-    autoRenew: true,
-    notificationEnabled: true,
+    domain: '',
 })
 
-const editingDomain = ref<Domain>({
-    id: '',
+const editingDomain = ref<Partial<Domain>>({
+    id: 0,
     domain: '',
     status: 'active',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
 })
 
-const formatDate = (date: Date) => {
+const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString()
 }
 
@@ -137,14 +122,14 @@ const handlePageChange = (page: number) => {
 }
 
 const handleAddDomain = async () => {
-    if (!newDomain.value.name.trim()) {
+    if (!newDomain.value.domain.trim()) {
         return
     }
 
     try {
-        await domainsStore.addDomain(newDomain.value.name.trim())
+        await domainsStore.addDomain(newDomain.value.domain.trim())
         showAddDialog.value = false
-        newDomain.value.name = ''
+        newDomain.value.domain = ''
     } catch (error) {
         console.error('Failed to add domain:', error)
     }
@@ -152,19 +137,19 @@ const handleAddDomain = async () => {
 
 const handleEditDomain = async () => {
     try {
-        await domainsStore.updateDomain(editingDomain.value)
+        // Convert Partial<Domain> to Domain by ensuring all required fields are present
+        const domainToUpdate: Domain = {
+            id: editingDomain.value.id || 0,
+            domain: editingDomain.value.domain || '',
+            status: editingDomain.value.status || 'active',
+            created_at: editingDomain.value.created_at || new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+        }
+        await domainsStore.updateDomain(domainToUpdate)
         showEditDialog.value = false
     } catch (error) {
         console.error('Failed to update domain:', error)
     }
-}
-
-const handleAutoRenewChange = (domain: Domain) => {
-    domainsStore.updateDomain(domain)
-}
-
-const handleNotificationChange = (domain: Domain) => {
-    domainsStore.updateDomain(domain)
 }
 
 const editDomain = (domain: Domain) => {
@@ -175,7 +160,7 @@ const editDomain = (domain: Domain) => {
 const deleteDomain = async (domain: Domain) => {
     try {
         await ElMessageBox.confirm(
-            `Are you sure you want to delete ${domain.name}?`,
+            `Are you sure you want to delete ${domain.domain}?`,
             'Delete Domain',
             {
                 confirmButtonText: 'Delete',
@@ -184,7 +169,7 @@ const deleteDomain = async (domain: Domain) => {
             }
         )
 
-        await domainsStore.removeDomain(Number(domain.id))
+        await domainsStore.removeDomain(domain.id)
     } catch (error) {
         // User cancelled or error occurred
     }

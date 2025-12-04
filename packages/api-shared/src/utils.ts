@@ -9,7 +9,7 @@ export function calculateDaysUntilExpiry(validTo: Date): number {
 }
 
 export function getCertificateStatus(certificate: SSLCertificate): 'valid' | 'expiring' | 'expired' {
-  const daysUntilExpiry = calculateDaysUntilExpiry(certificate.validTo);
+  const daysUntilExpiry = calculateDaysUntilExpiry(new Date(certificate.expires_at));
   
   if (daysUntilExpiry < 0) {
     return 'expired';

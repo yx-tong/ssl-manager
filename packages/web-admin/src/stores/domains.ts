@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Domain } from '@/api/domains'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 export const useDomainsStore = defineStore('adminDomains', () => {
     const domains = ref<Domain[]>([])

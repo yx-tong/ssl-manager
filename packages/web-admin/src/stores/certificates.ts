@@ -19,34 +19,30 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
 
             const mockCertificates: SSLCertificate[] = [
                 {
-                    id: '1',
-                    domain: 'example.com',
-                    issuer: "Let's Encrypt",
-                    subject: 'example.com',
-                    validFrom: new Date('2024-01-01'),
-                    validTo: new Date('2024-12-31'),
-                    daysUntilExpiry: 30,
-                    status: 'expiring',
-                    fingerprint: 'abc123',
-                    serialNumber: '123456789',
-                    san: ['www.example.com'],
-                    keySize: 2048,
-                    signatureAlgorithm: 'SHA256withRSA',
+                    id: 1,
+                    domain_id: 1,
+                    certificate:
+                        '-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCKOGJQlJdZVTANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yNDAxMDEwMDAwMDBaFw0yNDEyMzEyMzU5NTlaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...',
+                    private_key:
+                        '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...',
+                    status: 'active',
+                    issued_at: new Date('2024-01-01').toISOString(),
+                    expires_at: new Date('2024-12-31').toISOString(),
+                    created_at: new Date('2024-01-01').toISOString(),
+                    updated_at: new Date('2024-01-01').toISOString(),
                 },
                 {
-                    id: '2',
-                    domain: 'test.com',
-                    issuer: "Let's Encrypt",
-                    subject: 'test.com',
-                    validFrom: new Date('2024-06-01'),
-                    validTo: new Date('2025-06-01'),
-                    daysUntilExpiry: 180,
-                    status: 'valid',
-                    fingerprint: 'def456',
-                    serialNumber: '987654321',
-                    san: ['www.test.com', 'api.test.com'],
-                    keySize: 2048,
-                    signatureAlgorithm: 'SHA256withRSA',
+                    id: 2,
+                    domain_id: 2,
+                    certificate:
+                        '-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCKOGJQlJdZVTANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yNDA2MDEwMDAwMDBaFw0yNTA2MDEyMzU5NTlaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...',
+                    private_key:
+                        '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...',
+                    status: 'active',
+                    issued_at: new Date('2024-06-01').toISOString(),
+                    expires_at: new Date('2025-06-01').toISOString(),
+                    created_at: new Date('2024-06-01').toISOString(),
+                    updated_at: new Date('2024-06-01').toISOString(),
                 },
             ]
 
@@ -66,8 +62,8 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
         return certificates.value.find(cert => cert.id === id)
     }
 
-    const getCertificatesByDomain = (domain: string) => {
-        return certificates.value.filter(cert => cert.domain === domain)
+    const getCertificatesByDomain = (domainId: number) => {
+        return certificates.value.filter(cert => cert.domain_id === domainId)
     }
 
     const refreshCertificate = async (certificateId: number) => {
@@ -76,10 +72,9 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
         try {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 1000))
-
-            ElMessage.success('Certificate refreshed successfully')
+            console.log(`Certificate ${certificateId} refreshed successfully`)
         } catch (error) {
-            ElMessage.error('Failed to refresh certificate')
+            console.error('Failed to refresh certificate:', error)
             throw error
         } finally {
             loading.value = false

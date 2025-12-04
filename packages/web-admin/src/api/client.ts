@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
-const API_BASE_URL = import.meta.env.PROD
+const API_BASE_URL = (import.meta as any).env?.PROD
     ? 'https://ssl-manager-backend.your-subdomain.workers.dev'
     : 'http://localhost:8787'
 
