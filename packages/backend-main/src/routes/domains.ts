@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import type { Env } from '../index'
+import type { Env } from '../types'
 
 export const domainsRouter = new Hono<{ Bindings: Env }>()
 

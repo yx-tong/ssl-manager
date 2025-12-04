@@ -2,17 +2,13 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { jwt } from 'hono/jwt'
 import type { Context } from 'hono'
+import type { Env } from './types'
 
 // 导入路由
 import { authRouter } from './routes/auth'
 import { domainsRouter } from './routes/domains'
 import { certificatesRouter } from './routes/certificates'
 import { usersRouter } from './routes/users'
-
-export interface Env {
-    DB: D1Database
-    JWT_SECRET: string
-}
 
 const app = new Hono<{ Bindings: Env }>()
 

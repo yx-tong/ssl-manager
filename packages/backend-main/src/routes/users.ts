@@ -1,11 +1,11 @@
 import { Hono } from 'hono'
-import type { Env } from '../index'
+import type { Env } from '../types'
 
 export const usersRouter = new Hono<{ Bindings: Env }>()
 
 // 获取所有用户
 usersRouter.get('/', async c => {
-    const { results } = await c.env.DB.prepare(
+      const { results } = await (c.env as any).DB.prepare(
         `
     SELECT id, username, email, role, status, created_at, last_login
     FROM users 
@@ -20,7 +20,7 @@ usersRouter.get('/', async c => {
 usersRouter.get('/:id', async c => {
     const id = c.req.param('id')
 
-    const user = await c.env.DB.prepare(
+    const user = await (c.env as any).DB.prepare(
         `
     SELECT id, username, email, role, status, created_at, last_login
     FROM users WHERE id = ?
@@ -45,7 +45,7 @@ usersRouter.post('/', async c => {
     }
 
     // 检查用户名是否已存在
-    const existingUser = await c.env.DB.prepare(
+    const existingUser = await (c.env as any).DB.prepare(
         `
     SELECT id FROM users WHERE username = ? OR email = ?
   `
@@ -57,7 +57,7 @@ usersRouter.post('/', async c => {
         return c.json({ error: 'Username or email already exists' }, 400)
     }
 
-    const result = await c.env.DB.prepare(
+    const result = await (c.env as any).DB.prepare(
         `
     INSERT INTO users (username, email, password_hash, role, status, created_at)
     VALUES (?, ?, ?, ?, ?, datetime('now'))
