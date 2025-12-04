@@ -23,6 +23,7 @@ export const useDomainsStore = defineStore('domains', () => {
                     status: 'active',
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
+                    expires_at: new Date('2024-12-31').toISOString(),
                     lastChecked: new Date(),
                     autoRenew: true,
                     notificationEnabled: true,
@@ -34,6 +35,7 @@ export const useDomainsStore = defineStore('domains', () => {
                     status: 'active',
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
+                    expires_at: new Date('2025-06-01').toISOString(),
                     lastChecked: new Date(),
                     autoRenew: false,
                     notificationEnabled: true,
@@ -61,6 +63,7 @@ export const useDomainsStore = defineStore('domains', () => {
                 status: 'active',
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
+                expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
                 lastChecked: new Date(),
                 autoRenew: true,
                 notificationEnabled: true,
@@ -83,7 +86,7 @@ export const useDomainsStore = defineStore('domains', () => {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 500))
 
-            const index = domains.value.findIndex(d => d.id === domainId)
+            const index = domains.value.findIndex(d => d.id.toString() === domainId.toString())
             if (index > -1) {
                 domains.value.splice(index, 1)
             }

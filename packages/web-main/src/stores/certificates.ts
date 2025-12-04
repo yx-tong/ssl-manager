@@ -17,7 +17,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
 
             certificates.value = [
                 {
-                    id: '1',
+                    id: 1,
                     domain: 'example.com',
                     issuer: "Let's Encrypt",
                     subject: 'example.com',
@@ -30,9 +30,11 @@ export const useCertificatesStore = defineStore('certificates', () => {
                     san: ['www.example.com'],
                     keySize: 2048,
                     signatureAlgorithm: 'SHA256withRSA',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
                 },
                 {
-                    id: '2',
+                    id: 2,
                     domain: 'test.com',
                     issuer: "Let's Encrypt",
                     subject: 'test.com',
@@ -45,6 +47,8 @@ export const useCertificatesStore = defineStore('certificates', () => {
                     san: ['www.test.com', 'api.test.com'],
                     keySize: 2048,
                     signatureAlgorithm: 'SHA256withRSA',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
                 },
             ]
         } catch (err) {
@@ -59,7 +63,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
     }
 
     const getCertificatesByDomain = (domain: string) => {
-        return certificates.value.filter(cert => cert.domain === domain)
+        return certificates.value.filter(cert => cert.domain && cert.domain.includes(domain)) as SSLCertificate[]
     }
 
     return {

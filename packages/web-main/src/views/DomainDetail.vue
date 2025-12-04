@@ -105,14 +105,15 @@
                                             {{ cert.status }}
                                         </span>
                                     </td>
-                                    <td>{{ cert.issuer }}</td>
-                                    <td>{{ formatDate(cert.validFrom) }}</td>
-                                    <td>{{ formatDate(cert.validTo) }}</td>
+                                    <td>{{ (cert as any).issuer }}</td>
+                                    <td>{{ formatDate((cert as any).validFrom) }}</td>
+                                    <td>{{ formatDate((cert as any).validTo) }}</td>
                                     <td>
                                         <span
-                                            :class="{ 'text-danger': cert.daysUntilExpiry <= 30 }"
+                                            :class="{ 'text-danger': (cert as any).daysUntilExpiry <= 30 }"
+                                            class="badge"
                                         >
-                                            {{ cert.daysUntilExpiry }}
+                                            {{ (cert as any).daysUntilExpiry }}
                                         </span>
                                     </td>
                                     <td>
@@ -155,18 +156,18 @@ const domainCertificates = computed(() =>
 )
 
 const validCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'valid')
+    domainCertificates.value.filter(cert => cert.status === 'valid' as any)
 )
 
 const expiringCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'expiring')
+    domainCertificates.value.filter(cert => cert.status === 'expiring' as any)
 )
 
 const expiredCertificates = computed(() =>
-    domainCertificates.value.filter(cert => cert.status === 'expired')
+    domainCertificates.value.filter(cert => cert.status === 'expired' as any)
 )
 
-const formatDate = (date: Date) => {
+const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString()
 }
 

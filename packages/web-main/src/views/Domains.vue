@@ -17,11 +17,11 @@
 
             <div v-else>
                 <div class="grid grid-cols-2">
-                    <div class="card" v-for="domain in domainsStore.domains" :key="domain.id">
+                    <div class="card" v-for="domain in (domainsStore.domains || [])" :key="domain.id">
                         <div class="domain-header">
                             <h3>
                                 <router-link :to="`/domain/${domain.id}`">
-                                    {{ domain.name }}
+                                    {{ (domain as any).name || domain.domain }}
                                 </router-link>
                             </h3>
                             <div class="domain-actions">
@@ -38,12 +38,12 @@
                         </div>
 
                         <div class="domain-info">
-                            <p>Last checked: {{ formatDate(domain.lastChecked) }}</p>
-                            <div class="domain-settings">
+                            <p>Last checked: {{ formatDate((domain as any).lastChecked) }}</p>
+                            <div class="domain-settings" v-if="(domain as any).autoRenew !== undefined && (domain as any).notificationEnabled !== undefined">
                                 <label>
                                     <input
                                         type="checkbox"
-                                        v-model="domain.autoRenew"
+                                        v-model="(domain as any).autoRenew"
                                         @change="updateDomain(domain)"
                                     />
                                     Auto-renew
@@ -51,7 +51,7 @@
                                 <label>
                                     <input
                                         type="checkbox"
-                                        v-model="domain.notificationEnabled"
+                                        v-model="(domain as any).notificationEnabled"
                                         @change="updateDomain(domain)"
                                     />
                                     Notifications
@@ -113,7 +113,7 @@ const domainsStore = useDomainsStore()
 const showAddDomain = ref(false)
 const newDomainName = ref('')
 
-const formatDate = (date: Date) => {
+const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString()
 }
 
@@ -135,7 +135,7 @@ const editDomain = (domain: Domain) => {
 }
 
 const deleteDomain = async (domain: Domain) => {
-    if (confirm(`Are you sure you want to delete ${domain.name || domain.domain}?`)) {
+    if (confirm(`Are you sure you want to delete ${(domain as any).name || domain.domain}?`)) {
         try {
             await domainsStore.removeDomain(domain.id.toString())
         } catch (error) {

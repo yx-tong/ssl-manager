@@ -50,20 +50,20 @@
                         </thead>
                         <tbody>
                             <tr v-for="cert in filteredCertificates" :key="cert.id">
-                                <td>{{ cert.domain }}</td>
-                                <td>
-                                    <span :class="['status-badge', cert.status]">
-                                        {{ cert.status }}
-                                    </span>
-                                </td>
-                                <td>{{ cert.issuer }}</td>
-                                <td>{{ formatDate(cert.validFrom) }}</td>
-                                <td>{{ formatDate(cert.validTo) }}</td>
-                                <td>
-                                    <span :class="{ 'text-danger': cert.daysUntilExpiry <= 30 }">
-                                        {{ cert.daysUntilExpiry }}
-                                    </span>
-                                </td>
+                                <td>{{ (cert as any).domain }}</td>
+                            <td>
+                                <span :class="['status-badge', (cert as any).status]">
+                                    {{ (cert as any).status }}
+                                </span>
+                            </td>
+                            <td>{{ (cert as any).issuer }}</td>
+                            <td>{{ formatDate((cert as any).validFrom) }}</td>
+                            <td>{{ formatDate((cert as any).validTo) }}</td>
+                            <td>
+                                <span :class="{ 'text-danger': (cert as any).daysUntilExpiry <= 30 }">
+                                    {{ (cert as any).daysUntilExpiry }}
+                                </span>
+                            </td>
                                 <td>
                                     <button
                                         class="btn btn-primary btn-sm"
@@ -95,7 +95,7 @@ const statusFilter = ref('')
 const searchFilter = ref('')
 
 const filteredCertificates = computed(() => {
-    let certificates = certificatesStore.certificates
+    let certificates = certificatesStore.certificates || []
 
     if (statusFilter.value) {
         certificates = certificates.filter(cert => cert.status === statusFilter.value)
@@ -103,13 +103,13 @@ const filteredCertificates = computed(() => {
 
     if (searchFilter.value) {
         const search = searchFilter.value.toLowerCase()
-        certificates = certificates.filter(cert => cert.domain.toLowerCase().includes(search))
+        certificates = certificates.filter(cert => cert.domain && cert.domain.toLowerCase().includes(search))
     }
 
     return certificates
 })
 
-const formatDate = (date: Date) => {
+const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString()
 }
 

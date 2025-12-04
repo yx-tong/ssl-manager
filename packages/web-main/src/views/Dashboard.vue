@@ -6,20 +6,20 @@
             <div class="grid grid-cols-3">
                 <div class="card">
                     <h3>Total Domains</h3>
-                    <div class="metric">{{ domainsStore.domains.length }}</div>
+                    <div class="metric">{{ (domainsStore.domains as any).length }}</div>
                 </div>
 
                 <div class="card">
                     <h3>Valid Certificates</h3>
                     <div class="metric valid">
-                        {{ validCertificates.length }}
+                        {{ (validCertificates as any).length }}
                     </div>
                 </div>
 
                 <div class="card">
                     <h3>Expiring Soon</h3>
                     <div class="metric expiring">
-                        {{ expiringCertificates.length }}
+                        {{ (expiringCertificates as any).length }}
                     </div>
                 </div>
             </div>
@@ -76,16 +76,16 @@ const domainsStore = useDomainsStore()
 const certificatesStore = useCertificatesStore()
 
 const validCertificates = computed(() =>
-    certificatesStore.certificates.filter(cert => cert.status === 'valid')
+    (certificatesStore.certificates || []).filter(cert => cert.status === 'valid')
 )
 
 const expiringCertificates = computed(() =>
-    certificatesStore.certificates.filter(cert => cert.status === 'expiring')
+    (certificatesStore.certificates || []).filter(cert => cert.status === 'expiring')
 )
 
-const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
+const recentCertificates = computed(() => (certificatesStore.certificates || []).slice(0, 5))
 
-const formatDate = (date: Date) => {
+const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString()
 }
 
