@@ -1,0 +1,16 @@
+{
+	"compatibility_date": "2025-10-08",
+	"main": "src/index.ts",
+	"name": "ssl-manager",
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d",
+			"database_name": "ssl-manager"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
