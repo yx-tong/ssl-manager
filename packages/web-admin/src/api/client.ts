@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const API_BASE_URL = (import.meta as any).env?.PROD
-    ? 'https://ssl-manager-backend.your-subdomain.workers.dev'
+    ? 'https://ssl-service.xez.workers.dev/'
     : 'http://localhost:8787'
 
 const client = axios.create({
