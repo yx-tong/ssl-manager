@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Domain, SSLCertificate } from 'api-shared'
+import type { Domain } from 'api-shared'
 
 export const useDomainsStore = defineStore('domains', () => {
   const domains = ref<Domain[]>([])

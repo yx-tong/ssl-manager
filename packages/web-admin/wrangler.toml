@@ -1,15 +1,14 @@
-name = "ssl-manager-web"
+name = "ssl-manager-web-admin"
 compatibility_date = "2024-01-01"
 
 [build]
 command = "pnpm build"
 
-[site]
+[[assets]]
 bucket = "./dist"
-entry-point = "workers-site"
 
 [env.production]
-name = "ssl-manager-web-prod"
+name = "ssl-manager-web-admin-prod"
 
 [env.staging]
-name = "ssl-manager-web-staging"
+name = "ssl-manager-web-admin-staging"

@@ -129,7 +129,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDomainsStore } from '@/stores/domains'
 import { useCertificatesStore } from '@/stores/certificates'
-import type { Domain, SSLCertificate } from 'api-shared'
+import type { SSLCertificate } from 'api-shared'
 
 const route = useRoute()
 const domainsStore = useDomainsStore()

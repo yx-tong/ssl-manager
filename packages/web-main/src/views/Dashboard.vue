@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+// import { storeToRefs } from 'pinia'
 import { useDomainsStore } from '@/stores/domains'
 import { useCertificatesStore } from '@/stores/certificates'
 
