@@ -38,7 +38,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop"status" label="Status">
+        <el-table-column prop="status" label="Status">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">
               {{ row.status }}

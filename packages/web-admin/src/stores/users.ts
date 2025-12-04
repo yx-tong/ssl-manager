@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { User } from 'api-shared'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 export const useUsersStore = defineStore('adminUsers', () => {
   const users = ref<User[]>([])
