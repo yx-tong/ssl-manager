@@ -1,0 +1,21 @@
+{
+  "name": "backend-main",
+  "version": "1.0.0",
+  "description": "SSL Manager Backend API on Cloudflare Worker",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc",
+    "db:migrate": "wrangler d1 execute ssl-manager-db --file=./migrations/001_initial.sql"
+  },
+  "dependencies": {
+    "hono": "^3.12.0",
+    "jose": "^5.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241202.0",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  }
+}

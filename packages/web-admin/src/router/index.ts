@@ -49,4 +49,19 @@ const router = createRouter({
   routes
 })
 
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('admin-token')
+  
+  if (to.meta.requiresAuth && !token) {
+    // 需要认证但未登录，跳转到登录页
+    next('/login')
+  } else if (to.meta.requiresGuest && token) {
+    // 已登录但访问访客页面，跳转到仪表板
+    next('/dashboard')
+  } else {
+    next()
+  }
+})
+
 export default router

@@ -1,0 +1,24 @@
+name = "ssl-manager-backend"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "ssl-manager-backend-prod"
+
+[env.staging]
+name = "ssl-manager-backend-staging"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ssl-manager-db"
+database_id = "your-database-id"
+
+[env.production.d1_databases]
+binding = "DB"
+database_name = "ssl-manager-db-prod"
+database_id = "your-prod-database-id"
+
+[env.staging.d1_databases]
+binding = "DB"
+database_name = "ssl-manager-db-staging"
+database_id = "your-staging-database-id"

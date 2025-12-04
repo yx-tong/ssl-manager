@@ -1,78 +1,108 @@
 <template>
-  <el-container class="admin-layout">
-    <el-aside width="200px" class="admin-sidebar">
-      <div class="logo">
-        <h2>SSL Admin</h2>
-      </div>
-      <el-menu
-        :default-active="$route.path"
-        class="admin-menu"
-        router
-        background-color="#304156"
-        text-color="#bfcbd9"
-        active-text-color="#409EFF"
-      >
-        <el-menu-item index="/dashboard">
-          <el-icon><Monitor /></el-icon>
-          <span>Dashboard</span>
-        </el-menu-item>
-        <el-menu-item index="/domains">
-          <el-icon><Globe /></el-icon>
-          <span>Domains</span>
-        </el-menu-item>
-        <el-menu-item index="/certificates">
-          <el-icon><Key /></el-icon>
-          <span>Certificates</span>
-        </el-menu-item>
-        <el-menu-item index="/users">
-          <el-icon><User /></el-icon>
-          <span>Users</span>
-        </el-menu-item>
-        <el-menu-item index="/settings">
-          <el-icon><Setting /></el-icon>
-          <span>Settings</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-    
-    <el-container>
-      <el-header class="admin-header">
-        <div class="header-left">
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ $route.meta.title || 'Dashboard' }}</el-breadcrumb-item>
-          </el-breadcrumb>
+  <div class="app-container">
+    <el-container v-if="!isLoginPage" class="admin-layout">
+      <el-aside width="200px" class="admin-sidebar">
+        <div class="logo">
+          <h2>SSL Admin</h2>
         </div>
-        <div class="header-right">
-          <el-dropdown>
-            <span class="user-dropdown">
-              Admin User
-              <el-icon class="el-icon--right">
-                <arrow-down />
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>Profile</el-dropdown-item>
-                <el-dropdown-item divided>Logout</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-      </el-header>
+        <el-menu
+          :default-active="$route.path"
+          class="admin-menu"
+          router
+          background-color="#304156"
+          text-color="#bfcbd9"
+          active-text-color="#409EFF"
+        >
+          <el-menu-item index="/dashboard">
+            <el-icon><Monitor /></el-icon>
+            <span>Dashboard</span>
+          </el-menu-item>
+          <el-menu-item index="/domains">
+            <el-icon><Globe /></el-icon>
+            <span>Domains</span>
+          </el-menu-item>
+          <el-menu-item index="/certificates">
+            <el-icon><Key /></el-icon>
+            <span>Certificates</span>
+          </el-menu-item>
+          <el-menu-item index="/users">
+            <el-icon><User /></el-icon>
+            <span>Users</span>
+          </el-menu-item>
+          <el-menu-item index="/settings">
+            <el-icon><Setting /></el-icon>
+            <span>Settings</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
       
-      <el-main class="admin-main">
-        <router-view />
-      </el-main>
+      <el-container>
+        <el-header class="admin-header">
+          <div class="header-left">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+              <el-breadcrumb-item>{{ $route.meta.title || 'Dashboard' }}</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+          <div class="header-right">
+            <el-dropdown>
+              <span class="user-dropdown">
+                {{ localStorage.getItem('admin-username') || 'Admin User' }}
+                <el-icon class="el-icon--right">
+                  <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>Profile</el-dropdown-item>
+                  <el-dropdown-item divided @click="handleLogout">Logout</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </el-header>
+        
+        <el-main class="admin-main">
+          <router-view />
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+    
+    <router-view v-else />
+  </div>
 </template>
 
 <script setup lang="ts">
-// Admin layout setup
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessageBox } from 'element-plus'
+
+const router = useRouter()
+
+const isLoginPage = computed(() => router.currentRoute.value.path === '/login')
+
+const handleLogout = () => {
+  ElMessageBox.confirm(
+    'Are you sure you want to logout?',
+    'Logout',
+    {
+      confirmButtonText: 'Logout',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  ).then(() => {
+    localStorage.removeItem('admin-token')
+    localStorage.removeItem('admin-username')
+    router.push('/login')
+  })
+}
 </script>
 
 <style lang="scss" scoped>
+.app-container {
+  height: 100vh;
+}
+
 .admin-layout {
   height: 100vh;
 }
