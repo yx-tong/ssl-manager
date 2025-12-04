@@ -67,65 +67,65 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, onMounted } from 'vue'
-    // import { storeToRefs } from 'pinia'
-    import { useDomainsStore } from '@/stores/domains'
-    import { useCertificatesStore } from '@/stores/certificates'
+import { computed, onMounted } from 'vue'
+// import { storeToRefs } from 'pinia'
+import { useDomainsStore } from '@/stores/domains'
+import { useCertificatesStore } from '@/stores/certificates'
 
-    const domainsStore = useDomainsStore()
-    const certificatesStore = useCertificatesStore()
+const domainsStore = useDomainsStore()
+const certificatesStore = useCertificatesStore()
 
-    const validCertificates = computed(() =>
-        certificatesStore.certificates.filter(cert => cert.status === 'valid')
-    )
+const validCertificates = computed(() =>
+    certificatesStore.certificates.filter(cert => cert.status === 'valid')
+)
 
-    const expiringCertificates = computed(() =>
-        certificatesStore.certificates.filter(cert => cert.status === 'expiring')
-    )
+const expiringCertificates = computed(() =>
+    certificatesStore.certificates.filter(cert => cert.status === 'expiring')
+)
 
-    const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
+const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
 
-    const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString()
-    }
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
+}
 
-    onMounted(() => {
-        domainsStore.fetchDomains()
-        certificatesStore.fetchCertificates()
-    })
+onMounted(() => {
+    domainsStore.fetchDomains()
+    certificatesStore.fetchCertificates()
+})
 </script>
 
 <style lang="scss" scoped>
-    .dashboard {
-        padding: 2rem 0;
+.dashboard {
+    padding: 2rem 0;
+}
+
+.metric {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+
+    &.valid {
+        color: var(--color-valid);
     }
 
-    .metric {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-top: 0.5rem;
-
-        &.valid {
-            color: var(--color-valid);
-        }
-
-        &.expiring {
-            color: var(--color-expiring);
-        }
+    &.expiring {
+        color: var(--color-expiring);
     }
+}
 
-    .loading,
-    .error,
-    .empty-state {
-        text-align: center;
-        padding: 2rem;
-    }
+.loading,
+.error,
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+}
 
-    .error {
-        color: var(--color-danger);
-    }
+.error {
+    color: var(--color-danger);
+}
 
-    .empty-state {
-        color: var(--color-text-secondary);
-    }
+.empty-state {
+    color: var(--color-text-secondary);
+}
 </style>

@@ -136,155 +136,155 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, computed, onMounted } from 'vue'
-    import { useRoute } from 'vue-router'
-    import { useDomainsStore } from '@/stores/domains'
-    import { useCertificatesStore } from '@/stores/certificates'
-    import type { SSLCertificate } from 'api-shared'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useDomainsStore } from '@/stores/domains'
+import { useCertificatesStore } from '@/stores/certificates'
+import type { SSLCertificate } from 'api-shared'
 
-    const route = useRoute()
-    const domainsStore = useDomainsStore()
-    const certificatesStore = useCertificatesStore()
+const route = useRoute()
+const domainsStore = useDomainsStore()
+const certificatesStore = useCertificatesStore()
 
-    const domainId = ref(route.params.id as string)
+const domainId = ref(route.params.id as string)
 
-    const domain = computed(() => domainsStore.domains.find(d => d.id === domainId.value))
+const domain = computed(() => domainsStore.domains.find(d => d.id === domainId.value))
 
-    const domainCertificates = computed(() =>
-        certificatesStore.getCertificatesByDomain(domain.value?.name || '')
-    )
+const domainCertificates = computed(() =>
+    certificatesStore.getCertificatesByDomain(domain.value?.name || '')
+)
 
-    const validCertificates = computed(() =>
-        domainCertificates.value.filter(cert => cert.status === 'valid')
-    )
+const validCertificates = computed(() =>
+    domainCertificates.value.filter(cert => cert.status === 'valid')
+)
 
-    const expiringCertificates = computed(() =>
-        domainCertificates.value.filter(cert => cert.status === 'expiring')
-    )
+const expiringCertificates = computed(() =>
+    domainCertificates.value.filter(cert => cert.status === 'expiring')
+)
 
-    const expiredCertificates = computed(() =>
-        domainCertificates.value.filter(cert => cert.status === 'expired')
-    )
+const expiredCertificates = computed(() =>
+    domainCertificates.value.filter(cert => cert.status === 'expired')
+)
 
-    const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString()
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
+}
+
+const refreshCertificates = () => {
+    certificatesStore.fetchCertificates()
+}
+
+const viewCertificate = (certificate: SSLCertificate) => {
+    // TODO: Implement certificate detail view
+    console.log('View certificate:', certificate)
+}
+
+onMounted(() => {
+    if (domainsStore.domains.length === 0) {
+        domainsStore.fetchDomains()
     }
-
-    const refreshCertificates = () => {
-        certificatesStore.fetchCertificates()
-    }
-
-    const viewCertificate = (certificate: SSLCertificate) => {
-        // TODO: Implement certificate detail view
-        console.log('View certificate:', certificate)
-    }
-
-    onMounted(() => {
-        if (domainsStore.domains.length === 0) {
-            domainsStore.fetchDomains()
-        }
-        certificatesStore.fetchCertificates()
-    })
+    certificatesStore.fetchCertificates()
+})
 </script>
 
 <style lang="scss" scoped>
-    .domain-detail {
-        padding: 2rem 0;
+.domain-detail {
+    padding: 2rem 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.info-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+
+    &:last-child {
+        border-bottom: none;
     }
 
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-    }
-
-    .header-actions {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .info-grid {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .info-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid var(--color-border);
-
-        &:last-child {
-            border-bottom: none;
-        }
-
-        strong {
-            color: var(--color-text-secondary);
-        }
-    }
-
-    .summary-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-        text-align: center;
-    }
-
-    .summary-item {
-        .summary-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-
-            &.expiring {
-                color: var(--color-expiring);
-            }
-
-            &.expired {
-                color: var(--color-expired);
-            }
-        }
-
-        .summary-label {
-            color: var(--color-text-secondary);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-    }
-
-    .loading,
-    .error,
-    .empty-state {
-        text-align: center;
-        padding: 2rem;
-    }
-
-    .error {
-        color: var(--color-danger);
-    }
-
-    .empty-state {
+    strong {
         color: var(--color-text-secondary);
     }
+}
 
-    .text-success {
-        color: var(--color-success);
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: center;
+}
+
+.summary-item {
+    .summary-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+
+        &.expiring {
+            color: var(--color-expiring);
+        }
+
+        &.expired {
+            color: var(--color-expired);
+        }
     }
 
-    .text-secondary {
+    .summary-label {
         color: var(--color-text-secondary);
-    }
-
-    .text-danger {
-        color: var(--color-danger);
-        font-weight: 600;
-    }
-
-    .btn-sm {
-        padding: 0.5rem 1rem;
         font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
+}
+
+.loading,
+.error,
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+}
+
+.error {
+    color: var(--color-danger);
+}
+
+.empty-state {
+    color: var(--color-text-secondary);
+}
+
+.text-success {
+    color: var(--color-success);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-danger {
+    color: var(--color-danger);
+    font-weight: 600;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
 </style>

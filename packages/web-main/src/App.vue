@@ -20,55 +20,55 @@
 </template>
 
 <script setup lang="ts">
-    // App component setup
+// App component setup
 </script>
 
 <style lang="scss" scoped>
-    .navbar {
-        background: var(--color-primary);
-        padding: 1rem 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.navbar {
+    background: var(--color-primary);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
 
-        .logo {
-            text-decoration: none;
-            color: white;
+    .logo {
+        text-decoration: none;
+        color: white;
 
-            h1 {
-                margin: 0;
-                font-size: 1.5rem;
-            }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-
-            &:hover,
-            &.router-link-active {
-                background-color: rgba(255, 255, 255, 0.2);
-            }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
         }
     }
 
-    .main-content {
-        min-height: calc(100vh - 80px);
-        background-color: var(--color-background);
+    .nav-links {
+        display: flex;
+        gap: 2rem;
     }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+
+        &:hover,
+        &.router-link-active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+}
+
+.main-content {
+    min-height: calc(100vh - 80px);
+    background-color: var(--color-background);
+}
 </style>

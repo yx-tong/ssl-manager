@@ -165,113 +165,113 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, reactive } from 'vue'
-    import { ElMessage } from 'element-plus'
+import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 
-    const activeTab = ref('general')
-    const saving = ref(false)
-    const testing = ref(false)
+const activeTab = ref('general')
+const saving = ref(false)
+const testing = ref(false)
 
-    const generalSettings = reactive({
-        siteName: 'SSL Manager Admin',
-        siteDescription: 'SSL Certificate Management System',
-        timezone: 'UTC',
-        maintenanceMode: false,
-    })
+const generalSettings = reactive({
+    siteName: 'SSL Manager Admin',
+    siteDescription: 'SSL Certificate Management System',
+    timezone: 'UTC',
+    maintenanceMode: false,
+})
 
-    const sslSettings = reactive({
-        checkInterval: 24,
-        notificationDays: 30,
-        emailNotifications: true,
-        webhookNotifications: false,
-        webhookUrl: '',
-    })
+const sslSettings = reactive({
+    checkInterval: 24,
+    notificationDays: 30,
+    emailNotifications: true,
+    webhookNotifications: false,
+    webhookUrl: '',
+})
 
-    const emailSettings = reactive({
-        smtpServer: '',
-        smtpPort: 587,
-        smtpUsername: '',
-        smtpPassword: '',
-        useSSL: true,
-        fromEmail: '',
-    })
+const emailSettings = reactive({
+    smtpServer: '',
+    smtpPort: 587,
+    smtpUsername: '',
+    smtpPassword: '',
+    useSSL: true,
+    fromEmail: '',
+})
 
-    const securitySettings = reactive({
-        enable2FA: false,
-        sessionTimeout: 60,
-        maxLoginAttempts: 5,
-        lockoutDuration: 30,
-        strongPassword: true,
-    })
+const securitySettings = reactive({
+    enable2FA: false,
+    sessionTimeout: 60,
+    maxLoginAttempts: 5,
+    lockoutDuration: 30,
+    strongPassword: true,
+})
 
-    const saveGeneralSettings = async () => {
-        saving.value = true
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            ElMessage.success('General settings saved successfully')
-        } catch (error) {
-            ElMessage.error('Failed to save general settings')
-        } finally {
-            saving.value = false
-        }
+const saveGeneralSettings = async () => {
+    saving.value = true
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        ElMessage.success('General settings saved successfully')
+    } catch (error) {
+        ElMessage.error('Failed to save general settings')
+    } finally {
+        saving.value = false
     }
+}
 
-    const saveSSLSettings = async () => {
-        saving.value = true
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            ElMessage.success('SSL settings saved successfully')
-        } catch (error) {
-            ElMessage.error('Failed to save SSL settings')
-        } finally {
-            saving.value = false
-        }
+const saveSSLSettings = async () => {
+    saving.value = true
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        ElMessage.success('SSL settings saved successfully')
+    } catch (error) {
+        ElMessage.error('Failed to save SSL settings')
+    } finally {
+        saving.value = false
     }
+}
 
-    const saveEmailSettings = async () => {
-        saving.value = true
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            ElMessage.success('Email settings saved successfully')
-        } catch (error) {
-            ElMessage.error('Failed to save email settings')
-        } finally {
-            saving.value = false
-        }
+const saveEmailSettings = async () => {
+    saving.value = true
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        ElMessage.success('Email settings saved successfully')
+    } catch (error) {
+        ElMessage.error('Failed to save email settings')
+    } finally {
+        saving.value = false
     }
+}
 
-    const testEmailSettings = async () => {
-        testing.value = true
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000))
-            ElMessage.success('Email connection test successful')
-        } catch (error) {
-            ElMessage.error('Email connection test failed')
-        } finally {
-            testing.value = false
-        }
+const testEmailSettings = async () => {
+    testing.value = true
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        ElMessage.success('Email connection test successful')
+    } catch (error) {
+        ElMessage.error('Email connection test failed')
+    } finally {
+        testing.value = false
     }
+}
 
-    const saveSecuritySettings = async () => {
-        saving.value = true
-        try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            ElMessage.success('Security settings saved successfully')
-        } catch (error) {
-            ElMessage.error('Failed to save security settings')
-        } finally {
-            saving.value = false
-        }
+const saveSecuritySettings = async () => {
+    saving.value = true
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        ElMessage.success('Security settings saved successfully')
+    } catch (error) {
+        ElMessage.error('Failed to save security settings')
+    } finally {
+        saving.value = false
     }
+}
 </script>
 
 <style lang="scss" scoped>
-    .admin-settings {
-        padding: 20px;
-    }
+.admin-settings {
+    padding: 20px;
+}
 </style>

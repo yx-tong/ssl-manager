@@ -112,105 +112,104 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, onMounted } from 'vue'
-    import { useDomainsStore } from '@/stores/domains'
-    import { useCertificatesStore } from '@/stores/certificates'
-    import { useUsersStore } from '@/stores/users'
-    import type { SSLCertificate } from '@/api/certificates'
+import { computed, onMounted } from 'vue'
+import { useDomainsStore } from '@/stores/domains'
+import { useCertificatesStore } from '@/stores/certificates'
+import { useUsersStore } from '@/stores/users'
+import type { SSLCertificate } from '@/api/certificates'
 
-    const domainsStore = useDomainsStore()
-    const certificatesStore = useCertificatesStore()
-    const usersStore = useUsersStore()
+const domainsStore = useDomainsStore()
+const certificatesStore = useCertificatesStore()
+const usersStore = useUsersStore()
 
-    const expiringCertificates = computed(
-        () =>
-            certificatesStore.certificates.filter(
-                (cert: SSLCertificate) => cert.status === 'expiring'
-            ).length
-    )
+const expiringCertificates = computed(
+    () =>
+        certificatesStore.certificates.filter((cert: SSLCertificate) => cert.status === 'expiring')
+            .length
+)
 
-    const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
+const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
 
-    const recentDomains = computed(() => domainsStore.domains.slice(0, 5))
+const recentDomains = computed(() => domainsStore.domains.slice(0, 5))
 
-    const getStatusType = (status: string) => {
-        switch (status) {
-            case 'valid':
-                return 'success'
-            case 'expiring':
-                return 'warning'
-            case 'expired':
-                return 'danger'
-            default:
-                return 'info'
-        }
+const getStatusType = (status: string) => {
+    switch (status) {
+        case 'valid':
+            return 'success'
+        case 'expiring':
+            return 'warning'
+        case 'expired':
+            return 'danger'
+        default:
+            return 'info'
     }
+}
 
-    const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString()
-    }
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
+}
 
-    onMounted(() => {
-        domainsStore.fetchDomains()
-        certificatesStore.fetchCertificates()
-        usersStore.fetchUsers()
-    })
+onMounted(() => {
+    domainsStore.fetchDomains()
+    certificatesStore.fetchCertificates()
+    usersStore.fetchUsers()
+})
 </script>
 
 <style lang="scss" scoped>
-    .admin-dashboard {
-        padding: 20px;
+.admin-dashboard {
+    padding: 20px;
+}
+
+.stat-card {
+    margin-bottom: 20px;
+
+    .stat-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
-    .stat-card {
-        margin-bottom: 20px;
+    .stat-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
 
-        .stat-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        &.domains {
+            background-color: #409eff;
         }
 
-        .stat-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-
-            &.domains {
-                background-color: #409eff;
-            }
-
-            &.certificates {
-                background-color: #67c23a;
-            }
-
-            &.users {
-                background-color: #e6a23c;
-            }
-
-            &.expiring {
-                background-color: #f56c6c;
-            }
+        &.certificates {
+            background-color: #67c23a;
         }
 
-        .stat-info {
-            text-align: right;
+        &.users {
+            background-color: #e6a23c;
         }
 
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #303133;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #909399;
+        &.expiring {
+            background-color: #f56c6c;
         }
     }
+
+    .stat-info {
+        text-align: right;
+    }
+
+    .stat-number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #303133;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: #909399;
+    }
+}
 </style>

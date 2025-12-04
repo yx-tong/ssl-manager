@@ -86,81 +86,81 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, computed, onMounted } from 'vue'
-    import { useCertificatesStore } from '@/stores/certificates'
-    import type { SSLCertificate } from 'api-shared'
+import { ref, computed, onMounted } from 'vue'
+import { useCertificatesStore } from '@/stores/certificates'
+import type { SSLCertificate } from 'api-shared'
 
-    const certificatesStore = useCertificatesStore()
-    const statusFilter = ref('')
-    const searchFilter = ref('')
+const certificatesStore = useCertificatesStore()
+const statusFilter = ref('')
+const searchFilter = ref('')
 
-    const filteredCertificates = computed(() => {
-        let certificates = certificatesStore.certificates
+const filteredCertificates = computed(() => {
+    let certificates = certificatesStore.certificates
 
-        if (statusFilter.value) {
-            certificates = certificates.filter(cert => cert.status === statusFilter.value)
-        }
-
-        if (searchFilter.value) {
-            const search = searchFilter.value.toLowerCase()
-            certificates = certificates.filter(cert => cert.domain.toLowerCase().includes(search))
-        }
-
-        return certificates
-    })
-
-    const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString()
+    if (statusFilter.value) {
+        certificates = certificates.filter(cert => cert.status === statusFilter.value)
     }
 
-    const viewCertificate = (certificate: SSLCertificate) => {
-        // TODO: Implement certificate detail view
-        console.log('View certificate:', certificate)
+    if (searchFilter.value) {
+        const search = searchFilter.value.toLowerCase()
+        certificates = certificates.filter(cert => cert.domain.toLowerCase().includes(search))
     }
 
-    onMounted(() => {
-        certificatesStore.fetchCertificates()
-    })
+    return certificates
+})
+
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
+}
+
+const viewCertificate = (certificate: SSLCertificate) => {
+    // TODO: Implement certificate detail view
+    console.log('View certificate:', certificate)
+}
+
+onMounted(() => {
+    certificatesStore.fetchCertificates()
+})
 </script>
 
 <style lang="scss" scoped>
-    .certificates {
-        padding: 2rem 0;
-    }
+.certificates {
+    padding: 2rem 0;
+}
 
-    .filters {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 2rem;
+.filters {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
 
-        .form-group {
-            margin-bottom: 0;
-            min-width: 200px;
-        }
+    .form-group {
+        margin-bottom: 0;
+        min-width: 200px;
     }
+}
 
-    .loading,
-    .error,
-    .empty-state {
-        text-align: center;
-        padding: 2rem;
-    }
+.loading,
+.error,
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+}
 
-    .error {
-        color: var(--color-danger);
-    }
+.error {
+    color: var(--color-danger);
+}
 
-    .empty-state {
-        color: var(--color-text-secondary);
-    }
+.empty-state {
+    color: var(--color-text-secondary);
+}
 
-    .text-danger {
-        color: var(--color-danger);
-        font-weight: 600;
-    }
+.text-danger {
+    color: var(--color-danger);
+    font-weight: 600;
+}
 
-    .btn-sm {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
 </style>

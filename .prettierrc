@@ -6,5 +6,5 @@
     "printWidth": 100,
     "endOfLine": "lf",
     "arrowParens": "avoid",
-    "vueIndentScriptAndStyle": true
+    "vueIndentScriptAndStyle": false
 }
