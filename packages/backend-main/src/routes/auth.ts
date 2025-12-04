@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { sign } from 'jose'
+import { SignJWT } from 'jose'
 import type { Env } from '../index'
 
 export const authRouter = new Hono<{ Bindings: Env }>()
@@ -18,7 +18,11 @@ authRouter.post('/login', async c => {
     }
 
     const secret = new TextEncoder().encode(c.env.JWT_SECRET || 'your-secret-key')
-    const token = await sign(payload, secret)
+    const token = await new SignJWT(payload)
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('24h')
+      .sign(secret)
 
     return c.json({
       token,
