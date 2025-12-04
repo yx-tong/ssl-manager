@@ -25,7 +25,7 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
                         '-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCKOGJQlJdZVTANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yNDAxMDEwMDAwMDBaFw0yNDEyMzEyMzU5NTlaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...',
                     private_key:
                         '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...',
-                    status: 'active',
+                    status: 'valid',
                     issued_at: new Date('2024-01-01').toISOString(),
                     expires_at: new Date('2024-12-31').toISOString(),
                     created_at: new Date('2024-01-01').toISOString(),
@@ -38,7 +38,7 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
                         '-----BEGIN CERTIFICATE-----\nMIICljCCAX4CCQCKOGJQlJdZVTANBgkqhkiG9w0BAQsFADANMQswCQYDVQQGEwJV\nUzAeFw0yNDA2MDEwMDAwMDBaFw0yNTA2MDEyMzU5NTlaMA0xCzAJBgNVBAYTAlVT\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...',
                     private_key:
                         '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...',
-                    status: 'active',
+                    status: 'valid',
                     issued_at: new Date('2024-06-01').toISOString(),
                     expires_at: new Date('2025-06-01').toISOString(),
                     created_at: new Date('2024-06-01').toISOString(),
@@ -59,11 +59,11 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
     }
 
     const getCertificateById = (id: number) => {
-        return certificates.value.find(cert => cert.id === id)
+        return certificates.value.find((cert: SSLCertificate) => cert.id === id)
     }
 
     const getCertificatesByDomain = (domainId: number) => {
-        return certificates.value.filter(cert => cert.domain_id === domainId)
+        return certificates.value.filter((cert: SSLCertificate) => cert.domain_id === domainId)
     }
 
     const refreshCertificate = async (certificateId: number) => {

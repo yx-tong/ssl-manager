@@ -1,7 +1,15 @@
 import client from './client'
-import type { SSLCertificate } from 'api-shared'
-
-export type { SSLCertificate }
+export interface SSLCertificate {
+    id: number
+    domain_id: number
+    certificate: string
+    private_key: string
+    status: 'valid' | 'expiring' | 'expired' | 'error'
+    expires_at?: string
+    issued_at?: string
+    created_at: string
+    updated_at: string
+}
 
 export interface CertificateWithDomain extends SSLCertificate {
     domain_name: string

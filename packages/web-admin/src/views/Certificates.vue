@@ -92,25 +92,29 @@ const certificatesStore = useCertificatesStore()
 const showDetailsDialog = ref(false)
 const selectedCertificate = ref<SSLCertificate | null>(null)
 
-const formatDate = (date: string) => {
+const formatDate = (date?: string) => {
+    if (!date) return 'N/A'
     return new Date(date).toLocaleDateString()
 }
 
-const getDaysLeft = (date: string) => {
+const getDaysLeft = (date?: string) => {
+    if (!date) return 0
     const now = new Date()
     const expiry = new Date(date)
     const diffTime = expiry.getTime() - now.getTime()
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 }
 
-const getExpiryClass = (date: string) => {
+const getExpiryClass = (date?: string) => {
+    if (!date) return 'info'
     const daysLeft = getDaysLeft(date)
     if (daysLeft <= 7) return 'danger'
     if (daysLeft <= 30) return 'warning'
     return 'success'
 }
 
-const getExpiryType = (date: string) => {
+const getExpiryType = (date?: string) => {
+    if (!date) return 'info'
     const daysLeft = getDaysLeft(date)
     if (daysLeft <= 7) return 'danger'
     if (daysLeft <= 30) return 'warning'

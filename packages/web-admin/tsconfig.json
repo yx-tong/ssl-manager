@@ -17,7 +17,8 @@
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["src/*"],
+            "api-shared": ["../api-shared/dist/index"]
         },
         "types": ["element-plus/global"]
     },

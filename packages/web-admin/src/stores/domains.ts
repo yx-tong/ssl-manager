@@ -79,7 +79,7 @@ export const useDomainsStore = defineStore('adminDomains', () => {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 500))
 
-            const index = domains.value.findIndex(d => d.id === domain.id)
+            const index = domains.value.findIndex((d: Domain) => d.id === domain.id)
             if (index > -1) {
                 domains.value[index] = domain
             }
@@ -99,7 +99,7 @@ export const useDomainsStore = defineStore('adminDomains', () => {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 500))
 
-            const index = domains.value.findIndex(d => d.id === domainId)
+            const index = domains.value.findIndex((d: Domain) => d.id === domainId)
             if (index > -1) {
                 domains.value.splice(index, 1)
                 total.value--

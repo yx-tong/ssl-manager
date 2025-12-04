@@ -1,7 +1,11 @@
 import client from './client'
-import type { Domain } from 'api-shared'
-
-export type { Domain }
+export interface Domain {
+    id: number
+    domain: string
+    status: 'active' | 'inactive'
+    created_at: string
+    updated_at: string
+}
 
 export const domainsAPI = {
     getAll: () => client.get<Domain[]>('/api/domains'),

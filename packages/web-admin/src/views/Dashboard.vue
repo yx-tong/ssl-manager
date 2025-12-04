@@ -118,10 +118,11 @@ const usersStore = useUsersStore()
 const expiringCertificates = computed(
     () =>
         certificatesStore.certificates.filter((cert: SSLCertificate) => {
+            if (!cert.expires_at) return false
             const daysLeft = Math.ceil(
                 (new Date(cert.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
             )
-            return daysLeft <= 30 && cert.status === 'active'
+            return daysLeft <= 30 && cert.status === 'valid'
         }).length
 )
 
@@ -142,7 +143,8 @@ const getStatusType = (status: string) => {
     }
 }
 
-const formatDate = (date: string) => {
+const formatDate = (date?: string) => {
+    if (!date) return 'N/A'
     return new Date(date).toLocaleDateString()
 }
 

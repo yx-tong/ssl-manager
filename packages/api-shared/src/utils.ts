@@ -9,6 +9,9 @@ export function calculateDaysUntilExpiry(validTo: Date): number {
 }
 
 export function getCertificateStatus(certificate: SSLCertificate): 'valid' | 'expiring' | 'expired' {
+  if (!certificate.expires_at) {
+    return 'valid'; // 如果没有过期时间，默认返回有效
+  }
   const daysUntilExpiry = calculateDaysUntilExpiry(new Date(certificate.expires_at));
   
   if (daysUntilExpiry < 0) {
