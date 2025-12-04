@@ -10,15 +10,15 @@ name = "ssl-manager-backend-staging"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "ssl-manager-db"
-database_id = "your-database-id"
+database_name = "ssl-manager"
+database_id = "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d"
 
 [env.production.d1_databases]
 binding = "DB"
-database_name = "ssl-manager-db-prod"
-database_id = "your-prod-database-id"
+database_name = "ssl-manager"
+database_id = "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d"
 
 [env.staging.d1_databases]
 binding = "DB"
-database_name = "ssl-manager-db-staging"
-database_id = "your-staging-database-id"
+database_name = "ssl-manager"
+database_id = "f96c97d2-3d42-4e7e-b3da-e7f4f9b5e95d"
