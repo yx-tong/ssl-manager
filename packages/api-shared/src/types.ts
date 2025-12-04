@@ -11,22 +11,22 @@ export interface SSLCertificate {
 }
 
 export interface Domain {
-  id: string;
-  name: string;
-  certificates: SSLCertificate[];
-  lastChecked: Date;
-  autoRenew: boolean;
-  notificationEnabled: boolean;
+  id: number;
+  domain: string;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+  expires_at?: string;
 }
 
 export interface User {
-  id: string;
+  id: number;
+  username: string;
   email: string;
-  name: string;
   role: 'admin' | 'user';
-  domains: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  status: 'active' | 'inactive';
+  created_at: string;
+  last_login?: string;
 }
 
 export interface ApiResponse<T> {

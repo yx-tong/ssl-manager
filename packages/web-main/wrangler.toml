@@ -1,11 +1,9 @@
 name = "ssl-manager-web-main"
+pages_build_output_dir = "./dist"
 compatibility_date = "2024-01-01"
 
 [build]
 command = "pnpm build"
-
-[[assets]]
-bucket = "./dist"
 
 [env.production]
 name = "ssl-manager-web-main-prod"

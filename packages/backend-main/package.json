@@ -7,7 +7,11 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "build": "tsc",
-    "db:migrate": "wrangler d1 execute ssl-manager-db --file=./migrations/001_initial.sql"
+    "db:migrate": "wrangler d1 execute ssl-manager-db --file=./migrations/001_initial.sql",
+    "lint": "eslint src --ext .ts --fix",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "fmt": "prettier --write src",
+    "fmt:check": "prettier --check src"
   },
   "dependencies": {
     "hono": "^3.12.0",

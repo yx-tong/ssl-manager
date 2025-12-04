@@ -47,7 +47,7 @@
           <div class="header-right">
             <el-dropdown>
               <span class="user-dropdown">
-                {{ localStorage.getItem('admin-username') || 'Admin User' }}
+                {{ username }}
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
@@ -73,13 +73,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 
 const router = useRouter()
+const username = ref('Admin User')
 
 const isLoginPage = computed(() => router.currentRoute.value.path === '/login')
+
+onMounted(() => {
+  const savedUsername = localStorage.getItem('admin-username')
+  if (savedUsername) {
+    username.value = savedUsername
+  }
+})
 
 const handleLogout = () => {
   ElMessageBox.confirm(
