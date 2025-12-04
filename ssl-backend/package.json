@@ -1,0 +1,23 @@
+{
+  "name": "ssl-backend",
+  "version": "1.0.0",
+  "description": "SSL certificate management backend API",
+  "main": "src/index.ts",
+  "scripts": {
+    "cf-typegen": "wrangler types",
+    "check": "tsc && wrangler deploy --dry-run",
+    "deploy": "wrangler deploy",
+    "dev": "pnpm seedLocalD1 && wrangler dev",
+    "predeploy": "wrangler d1 migrations apply DB --remote",
+    "seedLocalD1": "wrangler d1 migrations apply DB --local"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.51.0"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "private": true
+}
