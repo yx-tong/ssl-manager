@@ -1,17 +1,13 @@
 export interface SSLCertificate {
-  id: string;
-  domain: string;
-  issuer: string;
-  subject: string;
-  validFrom: Date;
-  validTo: Date;
-  daysUntilExpiry: number;
-  status: 'valid' | 'expiring' | 'expired';
-  fingerprint: string;
-  serialNumber: string;
-  san: string[];
-  keySize: number;
-  signatureAlgorithm: string;
+  id: number;
+  domain_id: number;
+  certificate: string;
+  private_key: string;
+  status: 'active' | 'expired' | 'revoked' | 'pending';
+  issued_at: string;
+  expires_at: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Domain {

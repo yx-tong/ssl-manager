@@ -54,6 +54,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { authAPI } from '@/api/auth'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
@@ -80,17 +81,17 @@ const handleLogin = async () => {
     if (valid) {
       loading.value = true
       try {
-        // 模拟登录验证
-        if (loginForm.username === 'admin' && loginForm.password === 'admin123') {
-          localStorage.setItem('admin-token', 'mock-admin-token')
-          localStorage.setItem('admin-username', loginForm.username)
-          ElMessage.success('Login successful')
-          router.push('/dashboard')
-        } else {
-          ElMessage.error('Invalid username or password')
-        }
+        const response = await authAPI.login({
+          username: loginForm.username,
+          password: loginForm.password
+        })
+        
+        localStorage.setItem('admin-token', response.token)
+        localStorage.setItem('admin-username', response.user.username)
+        ElMessage.success('Login successful')
+        router.push('/dashboard')
       } catch (error) {
-        ElMessage.error('Login failed')
+        ElMessage.error('Invalid username or password')
       } finally {
         loading.value = false
       }
