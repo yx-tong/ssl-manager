@@ -158,7 +158,7 @@ const newUser = ref({
   username: '',
   email: '',
   password: '',
-  role: 'user'
+  role: 'user' as 'admin' | 'user'
 })
 
 const editingUser = ref<User & { password?: string }>({
