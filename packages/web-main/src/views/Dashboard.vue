@@ -36,7 +36,7 @@
                 </div>
 
                 <div v-else>
-                    <table class="table" v-if="certificatesStore.certificates.length > 0">
+                    <table class="table" v-if="(certificatesStore.certificates as any).length > 0">
                         <thead>
                             <tr>
                                 <th>Domain</th>
@@ -47,14 +47,14 @@
                         </thead>
                         <tbody>
                             <tr v-for="cert in recentCertificates" :key="cert.id">
-                                <td>{{ cert.domain }}</td>
+                                <td>{{ (cert as any).domain }}</td>
                                 <td>
-                                    <span :class="['status-badge', cert.status]">
-                                        {{ cert.status }}
+                                    <span :class="['status-badge', (cert as any).status]">
+                                        {{ (cert as any).status }}
                                     </span>
                                 </td>
-                                <td>{{ formatDate(cert.validTo) }}</td>
-                                <td>{{ cert.daysUntilExpiry }}</td>
+                                <td>{{ formatDate((cert as any).validTo) }}</td>
+                                <td>{{ (cert as any).daysUntilExpiry }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -76,11 +76,11 @@ const domainsStore = useDomainsStore()
 const certificatesStore = useCertificatesStore()
 
 const validCertificates = computed(() =>
-    (certificatesStore.certificates || []).filter(cert => cert.status === 'valid')
+    (certificatesStore.certificates || []).filter(cert => (cert as any).status === 'valid')
 )
 
 const expiringCertificates = computed(() =>
-    (certificatesStore.certificates || []).filter(cert => cert.status === 'expiring')
+    (certificatesStore.certificates || []).filter(cert => (cert as any).status === 'expiring')
 )
 
 const recentCertificates = computed(() => (certificatesStore.certificates || []).slice(0, 5))

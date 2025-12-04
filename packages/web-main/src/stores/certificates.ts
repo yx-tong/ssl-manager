@@ -24,7 +24,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
                     validFrom: new Date('2024-01-01'),
                     validTo: new Date('2024-12-31'),
                     daysUntilExpiry: 30,
-                    status: 'expiring',
+                    status: 'expiring' as any,
                     fingerprint: 'abc123',
                     serialNumber: '123456789',
                     san: ['www.example.com'],
@@ -41,7 +41,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
                     validFrom: new Date('2024-06-01'),
                     validTo: new Date('2025-06-01'),
                     daysUntilExpiry: 180,
-                    status: 'valid',
+                    status: 'valid' as any,
                     fingerprint: 'def456',
                     serialNumber: '987654321',
                     san: ['www.test.com', 'api.test.com'],
@@ -50,7 +50,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
                 },
-            ]
+            ] as unknown as SSLCertificate[]
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to fetch certificates'
         } finally {
@@ -63,7 +63,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
     }
 
     const getCertificatesByDomain = (domain: string) => {
-        return certificates.value.filter(cert => cert.domain && cert.domain.includes(domain)) as SSLCertificate[]
+        return certificates.value.filter(cert => (cert as any).domain && (cert as any).domain.includes(domain)) as SSLCertificate[]
     }
 
     return {

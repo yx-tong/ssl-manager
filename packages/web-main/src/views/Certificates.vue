@@ -98,12 +98,12 @@ const filteredCertificates = computed(() => {
     let certificates = certificatesStore.certificates || []
 
     if (statusFilter.value) {
-        certificates = certificates.filter(cert => cert.status === statusFilter.value)
+        certificates = certificates.filter(cert => (cert as any).status === statusFilter.value)
     }
 
     if (searchFilter.value) {
         const search = searchFilter.value.toLowerCase()
-        certificates = certificates.filter(cert => cert.domain && cert.domain.toLowerCase().includes(search))
+        certificates = certificates.filter(cert => (cert as any).domain && (cert as any).domain.toLowerCase().includes(search))
     }
 
     return certificates

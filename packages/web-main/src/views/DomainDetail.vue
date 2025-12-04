@@ -2,7 +2,7 @@
     <div class="domain-detail">
         <div class="container">
             <div class="header">
-                <h1>{{ domain?.name }}</h1>
+                <h1>{{ (domain as any)?.name }}</h1>
                 <div class="header-actions">
                     <button class="btn btn-primary" @click="refreshCertificates">Refresh</button>
                     <router-link to="/domains" class="btn btn-secondary">
@@ -23,28 +23,28 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <strong>Domain:</strong>
-                                <span>{{ domain.name }}</span>
+                                <span>{{ (domain as any).name }}</span>
                             </div>
                             <div class="info-item">
                                 <strong>Last Checked:</strong>
-                                <span>{{ formatDate(domain.lastChecked) }}</span>
+                                <span>{{ formatDate((domain as any).lastChecked) }}</span>
                             </div>
                             <div class="info-item">
                                 <strong>Auto Renew:</strong>
-                                <span :class="domain.autoRenew ? 'text-success' : 'text-secondary'">
-                                    {{ domain.autoRenew ? 'Enabled' : 'Disabled' }}
+                                <span :class="(domain as any).autoRenew ? 'text-success' : 'text-secondary'">
+                                    {{ (domain as any).autoRenew ? 'Enabled' : 'Disabled' }}
                                 </span>
                             </div>
                             <div class="info-item">
                                 <strong>Notifications:</strong>
                                 <span
                                     :class="
-                                        domain.notificationEnabled
+                                        (domain as any).notificationEnabled
                                             ? 'text-success'
                                             : 'text-secondary'
                                     "
                                 >
-                                    {{ domain.notificationEnabled ? 'Enabled' : 'Disabled' }}
+                                    {{ (domain as any).notificationEnabled ? 'Enabled' : 'Disabled' }}
                                 </span>
                             </div>
                         </div>
@@ -99,10 +99,10 @@
                             </thead>
                             <tbody>
                                 <tr v-for="cert in domainCertificates" :key="cert.id">
-                                    <td>{{ cert.subject }}</td>
+                                    <td>{{ (cert as any).subject }}</td>
                                     <td>
-                                        <span :class="['status-badge', cert.status]">
-                                            {{ cert.status }}
+                                        <span :class="['status-badge', (cert as any).status]">
+                                            {{ (cert as any).status }}
                                         </span>
                                     </td>
                                     <td>{{ (cert as any).issuer }}</td>

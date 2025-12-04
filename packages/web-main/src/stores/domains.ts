@@ -20,7 +20,7 @@ export const useDomainsStore = defineStore('domains', () => {
                     id: 1,
                     domain: 'example.com',
                     name: 'example.com',
-                    status: 'active',
+                    status: 'active' as any,
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
                     expires_at: new Date('2024-12-31').toISOString(),
@@ -32,7 +32,7 @@ export const useDomainsStore = defineStore('domains', () => {
                     id: 2,
                     domain: 'test.com',
                     name: 'test.com',
-                    status: 'active',
+                    status: 'active' as any,
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(),
                     expires_at: new Date('2025-06-01').toISOString(),
@@ -40,7 +40,7 @@ export const useDomainsStore = defineStore('domains', () => {
                     autoRenew: false,
                     notificationEnabled: true,
                 },
-            ]
+            ] as unknown as Domain[]
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to fetch domains'
         } finally {
@@ -60,14 +60,14 @@ export const useDomainsStore = defineStore('domains', () => {
                 id: Date.now(),
                 domain: domainName,
                 name: domainName,
-                status: 'active',
+                status: 'active' as any,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
                 expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
                 lastChecked: new Date(),
                 autoRenew: true,
                 notificationEnabled: true,
-            }
+            } as unknown as Domain
 
             domains.value.push(newDomain)
         } catch (err) {
