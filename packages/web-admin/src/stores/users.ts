@@ -58,7 +58,7 @@ export const useUsersStore = defineStore('adminUsers', () => {
       await new Promise(resolve => setTimeout(resolve, 500))
       
       const newUser: User = {
-        id: Date.now(),
+        id: String(Date.now()),
         username: userData.username || '',
         email: userData.email || '',
         role: userData.role || 'user',

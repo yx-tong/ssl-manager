@@ -83,7 +83,7 @@
       <el-col :span="12">
         <el-card title="Recent Domains">
           <el-table :data="recentDomains" style="width: 100%" v-loading="domainsStore.loading">
-            <el-table-column prop="name" label="Domain" />
+            <el-table-column prop="domain" label="Domain" />
             <el-table-column prop="lastChecked" label="Last Checked">
               <template #default="{ row }">
                 {{ formatDate(row.lastChecked) }}
@@ -108,13 +108,14 @@ import { computed, onMounted } from 'vue'
 import { useDomainsStore } from '@/stores/domains'
 import { useCertificatesStore } from '@/stores/certificates'
 import { useUsersStore } from '@/stores/users'
+import type { SSLCertificate } from '@/api/certificates'
 
 const domainsStore = useDomainsStore()
 const certificatesStore = useCertificatesStore()
 const usersStore = useUsersStore()
 
 const expiringCertificates = computed(() => 
-  certificatesStore.certificates.filter(cert => cert.status === 'expiring').length
+  certificatesStore.certificates.filter((cert: SSLCertificate) => cert.status === 'expiring').length
 )
 
 const recentCertificates = computed(() => 

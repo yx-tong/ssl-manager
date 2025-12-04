@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useCertificatesStore } from '@/stores/certificates'
-import type { SSLCertificate } from 'api-shared'
+import type { SSLCertificate } from '@/api/certificates'
 
 const certificatesStore = useCertificatesStore()
 const showDetailsDialog = ref(false)
@@ -151,7 +151,7 @@ const viewDetails = (certificate: SSLCertificate) => {
 
 const refreshCertificate = async (certificate: SSLCertificate) => {
   try {
-    await certificatesStore.refreshCertificate(certificate.id)
+    await certificatesStore.refreshCertificate(Number(certificate.id))
   } catch (error) {
     console.error('Failed to refresh certificate:', error)
   }

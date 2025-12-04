@@ -2,7 +2,7 @@
   "name": "backend-main",
   "version": "1.0.0",
   "description": "SSL Manager Backend API on Cloudflare Worker",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

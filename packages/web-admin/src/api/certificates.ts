@@ -1,6 +1,8 @@
 import client from './client'
 import type { SSLCertificate } from 'api-shared'
 
+export type { SSLCertificate }
+
 export interface CertificateWithDomain extends SSLCertificate {
   domain_name: string
 }

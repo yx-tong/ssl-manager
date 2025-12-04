@@ -16,7 +16,7 @@
         style="width: 100%"
         v-loading="domainsStore.loading"
       >
-        <el-table-column prop="name" label="Domain Name" />
+        <el-table-column prop="domain" label="Domain Name" />
         <el-table-column prop="lastChecked" label="Last Checked">
           <template #default="{ row }">
             {{ formatDate(row.lastChecked) }}
@@ -120,8 +120,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { ElMessageBox } from 'element-plus'
 import { useDomainsStore } from '@/stores/domains'
-import type { Domain } from 'api-shared'
+import type { Domain } from '@/api/domains'
 
 const domainsStore = useDomainsStore()
 const showAddDialog = ref(false)
@@ -135,11 +136,10 @@ const newDomain = ref({
 
 const editingDomain = ref<Domain>({
   id: '',
-  name: '',
-  certificates: [],
-  lastChecked: new Date(),
-  autoRenew: true,
-  notificationEnabled: true
+  domain: '',
+  status: 'active',
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
 })
 
 const formatDate = (date: Date) => {
@@ -198,7 +198,7 @@ const deleteDomain = async (domain: Domain) => {
       }
     )
     
-    await domainsStore.removeDomain(domain.id)
+    await domainsStore.removeDomain(Number(domain.id))
   } catch (error) {
     // User cancelled or error occurred
   }
