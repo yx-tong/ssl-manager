@@ -19,18 +19,13 @@ export interface CreateUserRequest {
 }
 
 export const usersAPI = {
-  getAll: () =>
-    client.get<User[]>('/api/users'),
-    
-  getById: (id: number) =>
-    client.get<User>(`/api/users/${id}`),
-    
-  create: (data: CreateUserRequest) =>
-    client.post<User>('/api/users', data),
-    
-  update: (id: number, data: Partial<User>) =>
-    client.put<User>(`/api/users/${id}`, data),
-    
-  delete: (id: number) =>
-    client.delete(`/api/users/${id}`)
+  getAll: () => client.get<User[]>('/api/users'),
+
+  getById: (id: number) => client.get<User>(`/api/users/${id}`),
+
+  create: (data: CreateUserRequest) => client.post<User>('/api/users', data),
+
+  update: (id: number, data: Partial<User>) => client.put<User>(`/api/users/${id}`, data),
+
+  delete: (id: number) => client.delete(`/api/users/${id}`),
 }

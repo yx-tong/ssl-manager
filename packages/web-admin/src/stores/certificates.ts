@@ -12,11 +12,11 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
 
   const fetchCertificates = async (page = 1, limit = 10) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       const mockCertificates: SSLCertificate[] = [
         {
           id: '1',
@@ -31,7 +31,7 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
           serialNumber: '123456789',
           san: ['www.example.com'],
           keySize: 2048,
-          signatureAlgorithm: 'SHA256withRSA'
+          signatureAlgorithm: 'SHA256withRSA',
         },
         {
           id: '2',
@@ -46,10 +46,10 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
           serialNumber: '987654321',
           san: ['www.test.com', 'api.test.com'],
           keySize: 2048,
-          signatureAlgorithm: 'SHA256withRSA'
-        }
+          signatureAlgorithm: 'SHA256withRSA',
+        },
       ]
-      
+
       certificates.value = mockCertificates
       total.value = mockCertificates.length
       currentPage.value = page
@@ -72,11 +72,11 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
 
   const refreshCertificate = async (certificateId: number) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       ElMessage.success('Certificate refreshed successfully')
     } catch (error) {
       ElMessage.error('Failed to refresh certificate')
@@ -95,6 +95,6 @@ export const useCertificatesStore = defineStore('adminCertificates', () => {
     fetchCertificates,
     getCertificateById,
     getCertificatesByDomain,
-    refreshCertificate
+    refreshCertificate,
   }
 })

@@ -17,15 +17,23 @@ export interface Env {
 const app = new Hono<{ Bindings: Env }>()
 
 // CORS 配置
-app.use('/*', cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://ssl-manager-web.pages.dev', 'https://ssl-manager-admin.pages.dev'],
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}))
+app.use(
+  '/*',
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'https://ssl-manager-web.pages.dev',
+      'https://ssl-manager-admin.pages.dev',
+    ],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
+)
 
 // 健康检查
-app.get('/health', (c) => {
+app.get('/health', c => {
   return c.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
@@ -46,7 +54,7 @@ app.route('/api/certificates', certificatesRouter)
 app.route('/api/users', usersRouter)
 
 // 404 处理
-app.notFound((c) => {
+app.notFound(c => {
   return c.json({ error: 'Not Found' }, 404)
 })
 

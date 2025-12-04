@@ -10,12 +10,8 @@
           </el-button>
         </div>
       </template>
-      
-      <el-table
-        :data="domainsStore.domains"
-        style="width: 100%"
-        v-loading="domainsStore.loading"
-      >
+
+      <el-table :data="domainsStore.domains" style="width: 100%" v-loading="domainsStore.loading">
         <el-table-column prop="domain" label="Domain Name" />
         <el-table-column prop="lastChecked" label="Last Checked">
           <template #default="{ row }">
@@ -24,18 +20,12 @@
         </el-table-column>
         <el-table-column label="Auto Renew">
           <template #default="{ row }">
-            <el-switch
-              v-model="row.autoRenew"
-              @change="handleAutoRenewChange(row)"
-            />
+            <el-switch v-model="row.autoRenew" @change="handleAutoRenewChange(row)" />
           </template>
         </el-table-column>
         <el-table-column label="Notifications">
           <template #default="{ row }">
-            <el-switch
-              v-model="row.notificationEnabled"
-              @change="handleNotificationChange(row)"
-            />
+            <el-switch v-model="row.notificationEnabled" @change="handleNotificationChange(row)" />
           </template>
         </el-table-column>
         <el-table-column label="Actions" width="200">
@@ -51,7 +41,7 @@
           </template>
         </el-table-column>
       </el-table>
-      
+
       <div class="pagination-container">
         <el-pagination
           v-model:current-page="domainsStore.currentPage"
@@ -62,19 +52,12 @@
         />
       </div>
     </el-card>
-    
+
     <!-- Add Domain Dialog -->
-    <el-dialog
-      v-model="showAddDialog"
-      title="Add New Domain"
-      width="500px"
-    >
+    <el-dialog v-model="showAddDialog" title="Add New Domain" width="500px">
       <el-form :model="newDomain" label-width="120px">
         <el-form-item label="Domain Name">
-          <el-input
-            v-model="newDomain.name"
-            placeholder="example.com"
-          />
+          <el-input v-model="newDomain.name" placeholder="example.com" />
         </el-form-item>
         <el-form-item label="Auto Renew">
           <el-switch v-model="newDomain.autoRenew" />
@@ -90,13 +73,9 @@
         </el-button>
       </template>
     </el-dialog>
-    
+
     <!-- Edit Domain Dialog -->
-    <el-dialog
-      v-model="showEditDialog"
-      title="Edit Domain"
-      width="500px"
-    >
+    <el-dialog v-model="showEditDialog" title="Edit Domain" width="500px">
       <el-form :model="editingDomain" label-width="120px">
         <el-form-item label="Domain Name">
           <el-input v-model="editingDomain.name" disabled />
@@ -119,110 +98,110 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { ElMessageBox } from 'element-plus'
-import { useDomainsStore } from '@/stores/domains'
-import type { Domain } from '@/api/domains'
+  import { ref, onMounted } from 'vue'
+  import { ElMessageBox } from 'element-plus'
+  import { useDomainsStore } from '@/stores/domains'
+  import type { Domain } from '@/api/domains'
 
-const domainsStore = useDomainsStore()
-const showAddDialog = ref(false)
-const showEditDialog = ref(false)
+  const domainsStore = useDomainsStore()
+  const showAddDialog = ref(false)
+  const showEditDialog = ref(false)
 
-const newDomain = ref({
-  name: '',
-  autoRenew: true,
-  notificationEnabled: true
-})
+  const newDomain = ref({
+    name: '',
+    autoRenew: true,
+    notificationEnabled: true,
+  })
 
-const editingDomain = ref<Domain>({
-  id: '',
-  domain: '',
-  status: 'active',
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString()
-})
+  const editingDomain = ref<Domain>({
+    id: '',
+    domain: '',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  })
 
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString()
-}
-
-const handlePageChange = (page: number) => {
-  domainsStore.fetchDomains(page, domainsStore.pageSize)
-}
-
-const handleAddDomain = async () => {
-  if (!newDomain.value.name.trim()) {
-    return
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
   }
-  
-  try {
-    await domainsStore.addDomain(newDomain.value.name.trim())
-    showAddDialog.value = false
-    newDomain.value.name = ''
-  } catch (error) {
-    console.error('Failed to add domain:', error)
+
+  const handlePageChange = (page: number) => {
+    domainsStore.fetchDomains(page, domainsStore.pageSize)
   }
-}
 
-const handleEditDomain = async () => {
-  try {
-    await domainsStore.updateDomain(editingDomain.value)
-    showEditDialog.value = false
-  } catch (error) {
-    console.error('Failed to update domain:', error)
+  const handleAddDomain = async () => {
+    if (!newDomain.value.name.trim()) {
+      return
+    }
+
+    try {
+      await domainsStore.addDomain(newDomain.value.name.trim())
+      showAddDialog.value = false
+      newDomain.value.name = ''
+    } catch (error) {
+      console.error('Failed to add domain:', error)
+    }
   }
-}
 
-const handleAutoRenewChange = (domain: Domain) => {
-  domainsStore.updateDomain(domain)
-}
-
-const handleNotificationChange = (domain: Domain) => {
-  domainsStore.updateDomain(domain)
-}
-
-const editDomain = (domain: Domain) => {
-  editingDomain.value = { ...domain }
-  showEditDialog.value = true
-}
-
-const deleteDomain = async (domain: Domain) => {
-  try {
-    await ElMessageBox.confirm(
-      `Are you sure you want to delete ${domain.name}?`,
-      'Delete Domain',
-      {
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      }
-    )
-    
-    await domainsStore.removeDomain(Number(domain.id))
-  } catch (error) {
-    // User cancelled or error occurred
+  const handleEditDomain = async () => {
+    try {
+      await domainsStore.updateDomain(editingDomain.value)
+      showEditDialog.value = false
+    } catch (error) {
+      console.error('Failed to update domain:', error)
+    }
   }
-}
 
-onMounted(() => {
-  domainsStore.fetchDomains()
-})
+  const handleAutoRenewChange = (domain: Domain) => {
+    domainsStore.updateDomain(domain)
+  }
+
+  const handleNotificationChange = (domain: Domain) => {
+    domainsStore.updateDomain(domain)
+  }
+
+  const editDomain = (domain: Domain) => {
+    editingDomain.value = { ...domain }
+    showEditDialog.value = true
+  }
+
+  const deleteDomain = async (domain: Domain) => {
+    try {
+      await ElMessageBox.confirm(
+        `Are you sure you want to delete ${domain.name}?`,
+        'Delete Domain',
+        {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      )
+
+      await domainsStore.removeDomain(Number(domain.id))
+    } catch (error) {
+      // User cancelled or error occurred
+    }
+  }
+
+  onMounted(() => {
+    domainsStore.fetchDomains()
+  })
 </script>
 
 <style lang="scss" scoped>
-.admin-domains {
-  padding: 20px;
-}
+  .admin-domains {
+    padding: 20px;
+  }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 </style>

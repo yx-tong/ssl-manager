@@ -10,11 +10,11 @@ export const useCertificatesStore = defineStore('certificates', () => {
   const fetchCertificates = async () => {
     loading.value = true
     error.value = null
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       certificates.value = [
         {
           id: '1',
@@ -29,7 +29,7 @@ export const useCertificatesStore = defineStore('certificates', () => {
           serialNumber: '123456789',
           san: ['www.example.com'],
           keySize: 2048,
-          signatureAlgorithm: 'SHA256withRSA'
+          signatureAlgorithm: 'SHA256withRSA',
         },
         {
           id: '2',
@@ -44,8 +44,8 @@ export const useCertificatesStore = defineStore('certificates', () => {
           serialNumber: '987654321',
           san: ['www.test.com', 'api.test.com'],
           keySize: 2048,
-          signatureAlgorithm: 'SHA256withRSA'
-        }
+          signatureAlgorithm: 'SHA256withRSA',
+        },
       ]
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to fetch certificates'
@@ -68,6 +68,6 @@ export const useCertificatesStore = defineStore('certificates', () => {
     error,
     fetchCertificates,
     getCertificateById,
-    getCertificatesByDomain
+    getCertificatesByDomain,
   }
 })

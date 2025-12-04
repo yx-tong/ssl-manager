@@ -12,28 +12,28 @@ export const useDomainsStore = defineStore('adminDomains', () => {
 
   const fetchDomains = async (page = 1, limit = 10) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       const mockDomains: Domain[] = [
         {
           id: 1,
           domain: 'example.com',
           status: 'active',
           created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
         },
         {
           id: 2,
           domain: 'test.com',
           status: 'active',
           created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
+          updated_at: new Date().toISOString(),
+        },
       ]
-      
+
       domains.value = mockDomains
       total.value = mockDomains.length
       currentPage.value = page
@@ -48,19 +48,19 @@ export const useDomainsStore = defineStore('adminDomains', () => {
 
   const addDomain = async (domainName: string) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
-      
+
       const newDomain: Domain = {
         id: Date.now(),
         domain: domainName,
         status: 'active',
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       }
-      
+
       domains.value.unshift(newDomain)
       total.value++
       ElMessage.success('Domain added successfully')
@@ -74,11 +74,11 @@ export const useDomainsStore = defineStore('adminDomains', () => {
 
   const updateDomain = async (domain: Domain) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
-      
+
       const index = domains.value.findIndex(d => d.id === domain.id)
       if (index > -1) {
         domains.value[index] = domain
@@ -94,11 +94,11 @@ export const useDomainsStore = defineStore('adminDomains', () => {
 
   const removeDomain = async (domainId: number) => {
     loading.value = true
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
-      
+
       const index = domains.value.findIndex(d => d.id === domainId)
       if (index > -1) {
         domains.value.splice(index, 1)
@@ -122,6 +122,6 @@ export const useDomainsStore = defineStore('adminDomains', () => {
     fetchDomains,
     addDomain,
     updateDomain,
-    removeDomain
+    removeDomain,
   }
 })

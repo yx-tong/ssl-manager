@@ -2,7 +2,7 @@
   <div class="certificates">
     <div class="container">
       <h1>Certificates</h1>
-      
+
       <div class="filters">
         <div class="form-group">
           <label for="statusFilter">Filter by Status</label>
@@ -13,7 +13,7 @@
             <option value="expired">Expired</option>
           </select>
         </div>
-        
+
         <div class="form-group">
           <label for="searchFilter">Search</label>
           <input
@@ -21,19 +21,19 @@
             v-model="searchFilter"
             type="text"
             placeholder="Search by domain..."
-          >
+          />
         </div>
       </div>
-      
+
       <div v-if="certificatesStore.loading" class="loading">
         <div class="spinner"></div>
         Loading certificates...
       </div>
-      
+
       <div v-else-if="certificatesStore.error" class="error">
         {{ certificatesStore.error }}
       </div>
-      
+
       <div v-else>
         <div class="card">
           <table class="table" v-if="filteredCertificates.length > 0">
@@ -72,10 +72,8 @@
               </tr>
             </tbody>
           </table>
-          
-          <div v-else class="empty-state">
-            No certificates found matching your criteria.
-          </div>
+
+          <div v-else class="empty-state">No certificates found matching your criteria.</div>
         </div>
       </div>
     </div>
@@ -83,81 +81,81 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useCertificatesStore } from '@/stores/certificates'
-import type { SSLCertificate } from 'api-shared'
+  import { ref, computed, onMounted } from 'vue'
+  import { useCertificatesStore } from '@/stores/certificates'
+  import type { SSLCertificate } from 'api-shared'
 
-const certificatesStore = useCertificatesStore()
-const statusFilter = ref('')
-const searchFilter = ref('')
+  const certificatesStore = useCertificatesStore()
+  const statusFilter = ref('')
+  const searchFilter = ref('')
 
-const filteredCertificates = computed(() => {
-  let certificates = certificatesStore.certificates
-  
-  if (statusFilter.value) {
-    certificates = certificates.filter(cert => cert.status === statusFilter.value)
+  const filteredCertificates = computed(() => {
+    let certificates = certificatesStore.certificates
+
+    if (statusFilter.value) {
+      certificates = certificates.filter(cert => cert.status === statusFilter.value)
+    }
+
+    if (searchFilter.value) {
+      const search = searchFilter.value.toLowerCase()
+      certificates = certificates.filter(cert => cert.domain.toLowerCase().includes(search))
+    }
+
+    return certificates
+  })
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
   }
-  
-  if (searchFilter.value) {
-    const search = searchFilter.value.toLowerCase()
-    certificates = certificates.filter(cert => 
-      cert.domain.toLowerCase().includes(search)
-    )
+
+  const viewCertificate = (certificate: SSLCertificate) => {
+    // TODO: Implement certificate detail view
+    console.log('View certificate:', certificate)
   }
-  
-  return certificates
-})
 
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString()
-}
-
-const viewCertificate = (certificate: SSLCertificate) => {
-  // TODO: Implement certificate detail view
-  console.log('View certificate:', certificate)
-}
-
-onMounted(() => {
-  certificatesStore.fetchCertificates()
-})
+  onMounted(() => {
+    certificatesStore.fetchCertificates()
+  })
 </script>
 
 <style lang="scss" scoped>
-.certificates {
-  padding: 2rem 0;
-}
-
-.filters {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  
-  .form-group {
-    margin-bottom: 0;
-    min-width: 200px;
+  .certificates {
+    padding: 2rem 0;
   }
-}
 
-.loading, .error, .empty-state {
-  text-align: center;
-  padding: 2rem;
-}
+  .filters {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
 
-.error {
-  color: var(--color-danger);
-}
+    .form-group {
+      margin-bottom: 0;
+      min-width: 200px;
+    }
+  }
 
-.empty-state {
-  color: var(--color-text-secondary);
-}
+  .loading,
+  .error,
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+  }
 
-.text-danger {
-  color: var(--color-danger);
-  font-weight: 600;
-}
+  .error {
+    color: var(--color-danger);
+  }
 
-.btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
+  .empty-state {
+    color: var(--color-text-secondary);
+  }
+
+  .text-danger {
+    color: var(--color-danger);
+    font-weight: 600;
+  }
+
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
 </style>

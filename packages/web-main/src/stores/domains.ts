@@ -10,11 +10,11 @@ export const useDomainsStore = defineStore('domains', () => {
   const fetchDomains = async () => {
     loading.value = true
     error.value = null
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       domains.value = [
         {
           id: '1',
@@ -22,7 +22,7 @@ export const useDomainsStore = defineStore('domains', () => {
           certificates: [],
           lastChecked: new Date(),
           autoRenew: true,
-          notificationEnabled: true
+          notificationEnabled: true,
         },
         {
           id: '2',
@@ -30,8 +30,8 @@ export const useDomainsStore = defineStore('domains', () => {
           certificates: [],
           lastChecked: new Date(),
           autoRenew: false,
-          notificationEnabled: true
-        }
+          notificationEnabled: true,
+        },
       ]
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to fetch domains'
@@ -43,20 +43,20 @@ export const useDomainsStore = defineStore('domains', () => {
   const addDomain = async (domainName: string) => {
     loading.value = true
     error.value = null
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
-      
+
       const newDomain: Domain = {
         id: Date.now().toString(),
         name: domainName,
         certificates: [],
         lastChecked: new Date(),
         autoRenew: true,
-        notificationEnabled: true
+        notificationEnabled: true,
       }
-      
+
       domains.value.push(newDomain)
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to add domain'
@@ -69,11 +69,11 @@ export const useDomainsStore = defineStore('domains', () => {
   const removeDomain = async (domainId: string) => {
     loading.value = true
     error.value = null
-    
+
     try {
       // TODO: Replace with actual API call
       await new Promise(resolve => setTimeout(resolve, 500))
-      
+
       const index = domains.value.findIndex(d => d.id === domainId)
       if (index > -1) {
         domains.value.splice(index, 1)
@@ -92,6 +92,6 @@ export const useDomainsStore = defineStore('domains', () => {
     error,
     fetchDomains,
     addDomain,
-    removeDomain
+    removeDomain,
   }
 })

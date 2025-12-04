@@ -14,7 +14,7 @@
           </div>
         </el-card>
       </el-col>
-      
+
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
@@ -28,7 +28,7 @@
           </div>
         </el-card>
       </el-col>
-      
+
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
@@ -42,7 +42,7 @@
           </div>
         </el-card>
       </el-col>
-      
+
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
@@ -57,11 +57,15 @@
         </el-card>
       </el-col>
     </el-row>
-    
+
     <el-row :gutter="20" class="mt-4">
       <el-col :span="12">
         <el-card title="Recent Certificates">
-          <el-table :data="recentCertificates" style="width: 100%" v-loading="certificatesStore.loading">
+          <el-table
+            :data="recentCertificates"
+            style="width: 100%"
+            v-loading="certificatesStore.loading"
+          >
             <el-table-column prop="domain" label="Domain" />
             <el-table-column prop="status" label="Status">
               <template #default="{ row }">
@@ -79,7 +83,7 @@
           </el-table>
         </el-card>
       </el-col>
-      
+
       <el-col :span="12">
         <el-card title="Recent Domains">
           <el-table :data="recentDomains" style="width: 100%" v-loading="domainsStore.loading">
@@ -104,102 +108,104 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useDomainsStore } from '@/stores/domains'
-import { useCertificatesStore } from '@/stores/certificates'
-import { useUsersStore } from '@/stores/users'
-import type { SSLCertificate } from '@/api/certificates'
+  import { computed, onMounted } from 'vue'
+  import { useDomainsStore } from '@/stores/domains'
+  import { useCertificatesStore } from '@/stores/certificates'
+  import { useUsersStore } from '@/stores/users'
+  import type { SSLCertificate } from '@/api/certificates'
 
-const domainsStore = useDomainsStore()
-const certificatesStore = useCertificatesStore()
-const usersStore = useUsersStore()
+  const domainsStore = useDomainsStore()
+  const certificatesStore = useCertificatesStore()
+  const usersStore = useUsersStore()
 
-const expiringCertificates = computed(() => 
-  certificatesStore.certificates.filter((cert: SSLCertificate) => cert.status === 'expiring').length
-)
+  const expiringCertificates = computed(
+    () =>
+      certificatesStore.certificates.filter((cert: SSLCertificate) => cert.status === 'expiring')
+        .length
+  )
 
-const recentCertificates = computed(() => 
-  certificatesStore.certificates.slice(0, 5)
-)
+  const recentCertificates = computed(() => certificatesStore.certificates.slice(0, 5))
 
-const recentDomains = computed(() => 
-  domainsStore.domains.slice(0, 5)
-)
+  const recentDomains = computed(() => domainsStore.domains.slice(0, 5))
 
-const getStatusType = (status: string) => {
-  switch (status) {
-    case 'valid': return 'success'
-    case 'expiring': return 'warning'
-    case 'expired': return 'danger'
-    default: return 'info'
+  const getStatusType = (status: string) => {
+    switch (status) {
+      case 'valid':
+        return 'success'
+      case 'expiring':
+        return 'warning'
+      case 'expired':
+        return 'danger'
+      default:
+        return 'info'
+    }
   }
-}
 
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString()
-}
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
+  }
 
-onMounted(() => {
-  domainsStore.fetchDomains()
-  certificatesStore.fetchCertificates()
-  usersStore.fetchUsers()
-})
+  onMounted(() => {
+    domainsStore.fetchDomains()
+    certificatesStore.fetchCertificates()
+    usersStore.fetchUsers()
+  })
 </script>
 
 <style lang="scss" scoped>
-.admin-dashboard {
-  padding: 20px;
-}
+  .admin-dashboard {
+    padding: 20px;
+  }
 
-.stat-card {
-  margin-bottom: 20px;
-  
-  .stat-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .stat-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    
-    &.domains {
-      background-color: #409EFF;
+  .stat-card {
+    margin-bottom: 20px;
+
+    .stat-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    
-    &.certificates {
-      background-color: #67C23A;
+
+    .stat-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+
+      &.domains {
+        background-color: #409eff;
+      }
+
+      &.certificates {
+        background-color: #67c23a;
+      }
+
+      &.users {
+        background-color: #e6a23c;
+      }
+
+      &.expiring {
+        background-color: #f56c6c;
+      }
     }
-    
-    &.users {
-      background-color: #E6A23C;
+
+    .stat-info {
+      text-align: right;
     }
-    
-    &.expiring {
-      background-color: #F56C6C;
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #303133;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #909399;
     }
   }
-  
-  .stat-info {
-    text-align: right;
-  }
-  
-  .stat-number {
-    font-size: 24px;
-    font-weight: bold;
-    color: #303133;
-    margin-bottom: 4px;
-  }
-  
-  .stat-label {
-    font-size: 14px;
-    color: #909399;
-  }
-}
 </style>

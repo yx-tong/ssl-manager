@@ -6,19 +6,19 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
+      '@': resolve(__dirname, 'src'),
+    },
   },
   css: {
     preprocessorOptions: {
       sass: {
-        additionalData: `@import "@/styles/variables.scss"`
-      }
-    }
+        additionalData: `@import "@/styles/variables.scss"`,
+      },
+    },
   },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true
-  }
+    sourcemap: true,
+  },
 })

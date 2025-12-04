@@ -10,12 +10,8 @@
           </el-button>
         </div>
       </template>
-      
-      <el-table
-        :data="usersStore.users"
-        style="width: 100%"
-        v-loading="usersStore.loading"
-      >
+
+      <el-table :data="usersStore.users" style="width: 100%" v-loading="usersStore.loading">
         <el-table-column prop="username" label="Username" />
         <el-table-column prop="email" label="Email" />
         <el-table-column prop="role" label="Role" />
@@ -42,9 +38,9 @@
               <el-icon><Edit /></el-icon>
               Edit
             </el-button>
-            <el-button 
-              :type="row.active ? 'warning' : 'success'" 
-              size="small" 
+            <el-button
+              :type="row.active ? 'warning' : 'success'"
+              size="small"
               @click="toggleUserStatus(row)"
             >
               <el-icon><Switch /></el-icon>
@@ -58,26 +54,15 @@
         </el-table-column>
       </el-table>
     </el-card>
-    
+
     <!-- Add User Dialog -->
-    <el-dialog
-      v-model="showAddDialog"
-      title="Add New User"
-      width="500px"
-    >
+    <el-dialog v-model="showAddDialog" title="Add New User" width="500px">
       <el-form :model="newUser" label-width="120px" ref="addUserForm">
         <el-form-item label="Username" prop="username">
-          <el-input
-            v-model="newUser.username"
-            placeholder="Enter username"
-          />
+          <el-input v-model="newUser.username" placeholder="Enter username" />
         </el-form-item>
         <el-form-item label="Email" prop="email">
-          <el-input
-            v-model="newUser.email"
-            placeholder="Enter email"
-            type="email"
-          />
+          <el-input v-model="newUser.email" placeholder="Enter email" type="email" />
         </el-form-item>
         <el-form-item label="Password" prop="password">
           <el-input
@@ -101,23 +86,15 @@
         </el-button>
       </template>
     </el-dialog>
-    
+
     <!-- Edit User Dialog -->
-    <el-dialog
-      v-model="showEditDialog"
-      title="Edit User"
-      width="500px"
-    >
+    <el-dialog v-model="showEditDialog" title="Edit User" width="500px">
       <el-form :model="editingUser" label-width="120px" ref="editUserForm">
         <el-form-item label="Username">
           <el-input v-model="editingUser.username" disabled />
         </el-form-item>
         <el-form-item label="Email" prop="email">
-          <el-input
-            v-model="editingUser.email"
-            placeholder="Enter email"
-            type="email"
-          />
+          <el-input v-model="editingUser.email" placeholder="Enter email" type="email" />
         </el-form-item>
         <el-form-item label="Role" prop="role">
           <el-select v-model="editingUser.role" placeholder="Select role">
@@ -145,116 +122,120 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { ElMessageBox } from 'element-plus'
-import { useUsersStore } from '@/stores/users'
-import type { User } from '@/api/users'
+  import { ref, onMounted } from 'vue'
+  import { ElMessageBox } from 'element-plus'
+  import { useUsersStore } from '@/stores/users'
+  import type { User } from '@/api/users'
 
-const usersStore = useUsersStore()
-const showAddDialog = ref(false)
-const showEditDialog = ref(false)
+  const usersStore = useUsersStore()
+  const showAddDialog = ref(false)
+  const showEditDialog = ref(false)
 
-const newUser = ref({
-  username: '',
-  email: '',
-  password: '',
-  role: 'user' as 'admin' | 'user'
-})
+  const newUser = ref({
+    username: '',
+    email: '',
+    password: '',
+    role: 'user' as 'admin' | 'user',
+  })
 
-const editingUser = ref<User & { password?: string }>({
-  id: 0,
-  username: '',
-  email: '',
-  role: 'user',
-  status: 'active',
-  created_at: new Date().toISOString(),
-  last_login: undefined,
-  password: ''
-})
+  const editingUser = ref<User & { password?: string }>({
+    id: 0,
+    username: '',
+    email: '',
+    role: 'user',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    last_login: undefined,
+    password: '',
+  })
 
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString()
-}
-
-const handleAddUser = async () => {
-  if (!newUser.value.username.trim() || !newUser.value.email.trim() || !newUser.value.password.trim()) {
-    return
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString()
   }
-  
-  try {
-    await usersStore.addUser({
-      username: newUser.value.username.trim(),
-      email: newUser.value.email.trim(),
-      password: newUser.value.password.trim(),
-      role: newUser.value.role
-    } as any)
-    showAddDialog.value = false
-    newUser.value = { username: '', email: '', password: '', role: 'user' }
-  } catch (error) {
-    console.error('Failed to add user:', error)
+
+  const handleAddUser = async () => {
+    if (
+      !newUser.value.username.trim() ||
+      !newUser.value.email.trim() ||
+      !newUser.value.password.trim()
+    ) {
+      return
+    }
+
+    try {
+      await usersStore.addUser({
+        username: newUser.value.username.trim(),
+        email: newUser.value.email.trim(),
+        password: newUser.value.password.trim(),
+        role: newUser.value.role,
+      } as any)
+      showAddDialog.value = false
+      newUser.value = { username: '', email: '', password: '', role: 'user' }
+    } catch (error) {
+      console.error('Failed to add user:', error)
+    }
   }
-}
 
-const handleEditUser = async () => {
-  try {
-    await usersStore.updateUser({
-      ...editingUser.value,
-      password: editingUser.value.password || undefined
-    } as any)
-    showEditDialog.value = false
-    editingUser.value.password = ''
-  } catch (error) {
-    console.error('Failed to update user:', error)
+  const handleEditUser = async () => {
+    try {
+      await usersStore.updateUser({
+        ...editingUser.value,
+        password: editingUser.value.password || undefined,
+      } as any)
+      showEditDialog.value = false
+      editingUser.value.password = ''
+    } catch (error) {
+      console.error('Failed to update user:', error)
+    }
   }
-}
 
-const editUser = (user: User) => {
-  editingUser.value = { ...user, password: '' }
-  showEditDialog.value = true
-}
-
-const toggleUserStatus = async (user: User) => {
-  try {
-    await usersStore.updateUser({
-      ...user,
-      status: user.status === 'active' ? 'inactive' : 'active'
-    } as any)
-  } catch (error) {
-    console.error('Failed to toggle user status:', error)
+  const editUser = (user: User) => {
+    editingUser.value = { ...user, password: '' }
+    showEditDialog.value = true
   }
-}
 
-const deleteUser = async (user: User) => {
-  try {
-    await ElMessageBox.confirm(
-      `Are you sure you want to delete ${user.username}?`,
-      'Delete User',
-      {
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      }
-    )
-    
-    await usersStore.removeUser(user.id)
-  } catch (error) {
-    // User cancelled or error occurred
+  const toggleUserStatus = async (user: User) => {
+    try {
+      await usersStore.updateUser({
+        ...user,
+        status: user.status === 'active' ? 'inactive' : 'active',
+      } as any)
+    } catch (error) {
+      console.error('Failed to toggle user status:', error)
+    }
   }
-}
 
-onMounted(() => {
-  usersStore.fetchUsers()
-})
+  const deleteUser = async (user: User) => {
+    try {
+      await ElMessageBox.confirm(
+        `Are you sure you want to delete ${user.username}?`,
+        'Delete User',
+        {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      )
+
+      await usersStore.removeUser(user.id)
+    } catch (error) {
+      // User cancelled or error occurred
+    }
+  }
+
+  onMounted(() => {
+    usersStore.fetchUsers()
+  })
 </script>
 
 <style lang="scss" scoped>
-.admin-users {
-  padding: 20px;
-}
+  .admin-users {
+    padding: 20px;
+  }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 </style>

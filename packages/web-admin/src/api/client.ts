@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
-const API_BASE_URL = import.meta.env.PROD 
+const API_BASE_URL = import.meta.env.PROD
   ? 'https://ssl-manager-backend.your-subdomain.workers.dev'
   : 'http://localhost:8787'
 
@@ -9,30 +9,30 @@ const client = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 // 请求拦截器
 client.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('admin-token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
-  (error) => {
+  error => {
     return Promise.reject(error)
   }
 )
 
 // 响应拦截器
 client.interceptors.response.use(
-  (response) => {
+  response => {
     return response
   },
-  (error) => {
+  error => {
     if (error.response?.status === 401) {
       localStorage.removeItem('admin-token')
       localStorage.removeItem('admin-username')
