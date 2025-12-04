@@ -1,0 +1,28 @@
+{
+  "name": "ssl-manager",
+  "version": "1.0.0",
+  "description": "SSL certificate management system",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web-main": "pnpm --filter web-main dev",
+    "dev:web-admin": "pnpm --filter web-admin dev",
+    "dev:backend": "pnpm --filter backend-main dev",
+    "build:all": "pnpm -r build",
+    "build:web-main": "pnpm --filter web-main build",
+    "build:web-admin": "pnpm --filter web-admin build",
+    "build:backend": "pnpm --filter backend-main build",
+    "deploy:web-main": "pnpm --filter web-main deploy",
+    "deploy:backend": "pnpm --filter backend-main deploy"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
